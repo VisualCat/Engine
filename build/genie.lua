@@ -30,6 +30,7 @@ project "project0"
   includedirs{
     path.join(PROJ_DIR, "include"),
     path.join(PROJ_DIR, "include/GLFW"),
+    path.join(PROJ_DIR, "include/IMGUI"),
    
     
   }
@@ -42,7 +43,8 @@ project "project0"
   files { 
 
     path.join(PROJ_DIR,"./include/GLFW/*.h"),
-    --path.join(PROJ_DIR,"./include/GLFW/*.c"),
+    path.join(PROJ_DIR,"./include/IMGUI/*.h"),
+    path.join(PROJ_DIR,"./include/IMGUI/*.cpp"),
     
     path.join(PROJ_DIR,"./src/*.cc"),
 
