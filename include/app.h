@@ -3,6 +3,10 @@
 #define __VC_APP__ 1
 
 #include <window.h>
+#include <rendercommand.h>
+#include <buffer_rendercommand.h>
+#include <material_rendercommand.h>
+#include <vector>
 
 namespace VC {
 
@@ -17,7 +21,7 @@ namespace VC {
 		void update();
 		void draw();
 		Window myWindow;
-
+		std::vector<RenderCommand*> comands_;
 	};
 
 

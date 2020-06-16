@@ -12,11 +12,25 @@ using namespace VC;
 
 void App::Init()
 {
+
 	myWindow.Init();
 	myWindow.CreateWindow(kWindowWidth, kWindowHeight, "Main Window");
 
 	myWindow.MakeCurrentContext();
 
+
+	float vertices[] = {
+	-0.5f, -0.5f, 0.0f,
+	 0.5f, -0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f
+	};
+
+	
+	BufferCommand* bComand = new BufferCommand();
+	bComand->SetVertices(vertices,3);
+	MaterialCommand* mComand = new MaterialCommand();
+	comands_.push_back(bComand);
+	comands_.push_back(mComand);
 }
 
 void App::Loop()
@@ -64,6 +78,11 @@ void App::draw()
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	for each (RenderCommand* com in comands_)
+	{
+		com->Action();
+	}
 
 	myWindow.SwapBuffers();
 }
