@@ -1,20 +1,15 @@
 
 #include <GLFW/glfw3.h>
+#include <app.h>
+
+using namespace VC;
 
 void main() {
-    glfwInit();
-    GLFWwindow *window = glfwCreateWindow(800, 600, "Joystick Test", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-    }
-    glfwMakeContextCurrent(window);
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwPollEvents();
-        glfwSwapBuffers(window);
-    }
+    
+    App appInstance;
 
-    glfwTerminate();
+    appInstance.Init();
+    appInstance.Loop();
+    appInstance.End();
 
 }
