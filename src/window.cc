@@ -41,7 +41,7 @@ void Window::CreateWindow(u32 width, u32 height, const char* title) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	xMouse = width/2.0;
 	yMouse = height/2.0;
-
+	//TODO Check if we need to remove this
 	glViewport(0, 0, width, height);
 
 }
@@ -74,7 +74,7 @@ void VC::Window::MakeCurrentContext()
 	glfwMakeContextCurrent(window_);
 	glewExperimental = GL_TRUE;
 	glewInit();
-
+	//TODO Check if we need to remove this
 	const GLubyte* renderer = glGetString(GL_RENDERER); // get renderer string
 	const GLubyte* version = glGetString(GL_VERSION); // version as a string
 
@@ -110,12 +110,14 @@ s8 Window::Terminate() {
 
 void Window::ClearColor(float r, float g, float b, float a)
 {
+	//TODO this should be a command
 	glClearColor(r,g,b,a);
 }
 
 void Window::Clear()
 {
 	ClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+	//TODO this should be a command
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
