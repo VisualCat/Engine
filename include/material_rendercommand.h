@@ -3,6 +3,7 @@
 
 #include <rendercommand.h>
 #include <platform_types.h>
+#include <material.h>
 
 namespace VC {
 
@@ -15,9 +16,11 @@ namespace VC {
 
 		virtual void Action() override;
 
+		void setMaterial(u32 id);
 
 	private:
 
+		Material material;
 
 
 

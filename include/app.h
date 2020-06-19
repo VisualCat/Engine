@@ -6,6 +6,7 @@
 #include <rendercommand.h>
 #include <buffer_rendercommand.h>
 #include <material_rendercommand.h>
+#include <draw_rendercommand.h>
 #include <vector>
 
 namespace VC {

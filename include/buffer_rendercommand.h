@@ -2,7 +2,7 @@
 #define __BUFFER_RENDER_COMMAND__ 1
 
 #include <rendercommand.h>
-#include <vector>
+#include <buffer.h>
 #include <platform_types.h>
 
 namespace VC {
@@ -16,11 +16,11 @@ namespace VC {
 
 		virtual void Action() override;
 
-		void SetVertices(float* newVertices, u32 numOfVertices);
+		void setBuffer(u32 id);
 
 	private:
 
-		std::vector<float> vertices_;
+		Buffer buffer_;
 		
 
 	};

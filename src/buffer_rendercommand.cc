@@ -16,21 +16,23 @@ BufferCommand::BufferCommand()
 
 void BufferCommand::Action()
 {
+	if (buffer_.getBufferID() == 0)
+	{
+		GLuint bufferID;
+		glGenBuffers(1, &bufferID);
+		buffer_.setBufferID(bufferID);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer_.getBufferID());
+		glBufferData(GL_ARRAY_BUFFER, buffer_.getNumVertex() * sizeof(float), buffer_.getVertex(), GL_STATIC_DRAW);
 
-	GLuint bufferID;
-	glGenBuffers(1, &bufferID);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glBufferData(GL_ARRAY_BUFFER, vertices_.size() * sizeof(float), vertices_.data(), GL_STATIC_DRAW);
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, buffer_.getBufferID());
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 
 }
 
-void BufferCommand::SetVertices(float* newVertices, u32 numOfVertices)
+void BufferCommand::setBuffer(u32 id)
 {
-	for (u32 i = 0; i < numOfVertices*3; i++)
-	{
-		vertices_.push_back(newVertices[i]);
-	}
+	buffer_ = Buffer{ id };
 }

@@ -35,7 +35,7 @@ namespace VC {
 		~Scheduler();
 
 		void AddTask(std::function<void()> task /*Sync sync*/);
-
+		//check if are some worker free to add the task, if not add to queue
 
 
 
