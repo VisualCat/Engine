@@ -14,6 +14,7 @@
 #include <geometry.h>
 #include <material.h>
 #include <clearwindow_rendercommand.h>
+#include <object.h>
 
 using namespace VC;
 
@@ -56,21 +57,16 @@ void App::Init()
 	};
 
 	Material triangleMat{ 1 };
-	Geometry triangle{ 1 };
-	BufferCommand* bComand = new BufferCommand();
-	triangle.setVertex(vertices, 3);
-	bComand->setGeometry(triangle.ID);
-	triangleMat.setVertexShader(vertexShaderSource);
-	triangleMat.setFragmentShader(fragmentShaderSource);
-	MaterialCommand* mComand = new MaterialCommand();
-	mComand->setMaterial(triangleMat.ID);
+	Geometry triangleGeo{ 1 };
+	
+  triangleGeo.setVertex(vertices, 3);
+  triangleMat.setVertexShader(vertexShaderSource);
+  triangleMat.setFragmentShader(fragmentShaderSource);
 
-	DrawCommand* dCommand = new DrawCommand();
-	dCommand->setGeometry(triangle.ID);
+  Object *triangle = new Object();
+  triangle->setGeometry(&triangleGeo);
+  triangle->setMaterial(&triangleMat);
 
-	comands_.push_back(bComand);
-	comands_.push_back(mComand);
-	comands_.push_back(dCommand);
 }
 
 void App::Loop()
@@ -112,13 +108,16 @@ void App::draw()
 	//cCommand->setColor(0.8f, 0.8f, 0.8f);
 	//comands_.push_back(cCommand);
 	myWindow.Clear();
-	//bool demo = false;
-	//ImGui::ShowDemoWindow(&demo);
+
+
 
 	for each (RenderCommand* com in comands_)
 	{
 		com->Action();
 	}
+
+  comands_.clear();
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

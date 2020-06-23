@@ -22,7 +22,7 @@ namespace VC {
 		void update();
 		void draw();
 		Window myWindow;
-		std::vector<RenderCommand*> comands_;
+    std::vector<RenderCommand*> comands_;
 	};
 
 

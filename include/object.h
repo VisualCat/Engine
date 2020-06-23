@@ -3,6 +3,9 @@
 
 #include <geometry.h>
 #include <material.h>
+#include <vector>
+
+#include <rendercommand.h>
 
 namespace VC {
 
@@ -10,9 +13,17 @@ namespace VC {
 
   public:
 
+    void setGeometry(Geometry *newGeo);
+    void setMaterial(Material *newMat);
+
+    Geometry* getGeometry();
+    Material* getMaterial();
+
+    void draw(std::vector<RenderCommand*> *comandsList);
+
   private:
-    Geometry geometry_;
-    Material material_;
+    Geometry *geometry_;
+    Material *material_;
 
   };
 
