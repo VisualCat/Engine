@@ -4,6 +4,7 @@
 #include <geometry.h>
 #include <material.h>
 #include <vector>
+#include <camera.h>
 
 #include <rendercommand.h>
 
@@ -19,7 +20,7 @@ namespace VC {
     Geometry getGeometry();
     Material getMaterial();
 
-    void draw(std::vector<RenderCommand*> *commandsList);
+    void draw(std::vector<RenderCommand*> *commandsList, Camera *myCamera);
 
   private:
     Geometry geometry_;

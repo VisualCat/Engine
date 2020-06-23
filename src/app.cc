@@ -24,19 +24,27 @@ void App::Init()
 	Geometry::Inicialize(kmaxBuffers);
 	Material::Inicialize(kmaxMaterials);
 
-	myWindow.Init();
-	myWindow.CreateWindow(kWindowWidth, kWindowHeight, "Main Window");
+	window_.Init();
+	window_.CreateWindow(kWindowWidth, kWindowHeight, "Main Window");
 
-	myWindow.MakeCurrentContext();
-	camera.init();
+	window_.MakeCurrentContext();
+	camera_.init();
 
 	
 	const char* vertexShaderSource = R"(
 		#version 330 core
+
 		layout (location = 0) in vec3 aPos;
-		void main()
+		
+    uniform mat4 u_v_matrix;
+    uniform mat4 u_p_matrix;
+
+    void main()
 		{
-		   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+
+       mat4 u_m_matrix = mat4(5,.0,.0,.0,.0,5,.0,.0,.0,.0,5,.0,.0,.0,.0,1);
+
+		   gl_Position = u_p_matrix * u_v_matrix * u_m_matrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 		}
 	)";
 
@@ -74,7 +82,7 @@ void App::Init()
 void App::Loop()
 {
 
-	while (!myWindow.ShouldClose())
+	while (!window_.ShouldClose())
 	{
 		input();
 		update();
@@ -85,26 +93,26 @@ void App::Loop()
 
 void App::End()
 {
-	myWindow.Terminate();
+	window_.Terminate();
 }
 
 void App::input()
 {
-	myWindow.PollEvents();
-	if (myWindow.getKeyPressed(Window::kVC_KEY_W))
+	window_.PollEvents();
+	if (window_.getKeyPressed(Window::kVC_KEY_W))
 	{
-		camera.cameraPos += Vector3(0.0f,0.0f,1.0f);
+		camera_.cameraPos += Vector3(0.0f,0.0f,001.0f);
 	}
-	if (myWindow.getKeyPressed(Window::kVC_KEY_S))
+	if (window_.getKeyPressed(Window::kVC_KEY_S))
 	{
-		camera.cameraPos += Vector3(0.0f, 0.0f, -1.0f);
+		camera_.cameraPos += Vector3(0.0f, 0.0f, -001.0f);
 	}
 	
 }
 
 void App::update()
 {
-	camera.update();
+	camera_.update();
 }
 
 void App::draw()
@@ -117,11 +125,11 @@ void App::draw()
 	ClearWindowCommand* cCommand = new ClearWindowCommand();
 	cCommand->setColor(0.8f, 0.8f, 0.8f);
 	commands_.push_back(cCommand);
-	//myWindow.Clear();
+	//window_.Clear();
 
 	for each (Object * o in objectsInScene_)
 	{
-		o->draw(&commands_);
+		o->draw(&commands_, &camera_);
 	}
 
 	for each (RenderCommand* com in commands_)
@@ -135,7 +143,7 @@ void App::draw()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
-	myWindow.SwapBuffers();
+	window_.SwapBuffers();
 }
 
 

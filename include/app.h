@@ -25,10 +25,10 @@ namespace VC {
 		void update();
 		void draw();
 
-		Window myWindow;
+		Window window_;
 		std::vector<RenderCommand*> commands_;
 		std::vector<Object*> objectsInScene_;
-		Camera camera;
+		Camera camera_;
 	};
 
 

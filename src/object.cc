@@ -5,6 +5,7 @@
 #include <buffer_rendercommand.h>
 #include <material_rendercommand.h>
 #include <draw_rendercommand.h>
+#include <viewprojection_uniform_rendercommand.h>
 
 using namespace VC;
 
@@ -46,7 +47,7 @@ Material Object::getMaterial()
   return material_;
 }
 
-void VC::Object::draw(std::vector<RenderCommand*> *commandsList)
+void Object::draw(std::vector<RenderCommand*> *commandsList, Camera *myCamera)
 {
 
   BufferCommand* bComand = new BufferCommand();
@@ -60,6 +61,14 @@ void VC::Object::draw(std::vector<RenderCommand*> *commandsList)
 
   commandsList->push_back(bComand);
   commandsList->push_back(mComand);
+
+  //Uniform condition
+  //ViewProjection
+  ViewProjectionUniformCommand* vpuCommand = new ViewProjectionUniformCommand();
+  vpuCommand->setCamera(myCamera);
+  vpuCommand->setMaterial(material_);
+  commandsList->push_back(vpuCommand);
+
   commandsList->push_back(dCommand);
 
 }
