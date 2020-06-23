@@ -13,6 +13,7 @@
 
 #include <buffer.h>
 #include <material.h>
+#include <clearwindow_rendercommand.h>
 
 using namespace VC;
 
@@ -111,6 +112,9 @@ void App::draw()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	//ClearWindowCommand* cCommand = new ClearWindowCommand();
+	//cCommand->setColor(0.8f, 0.8f, 0.8f);
+	//comands_.push_back(cCommand);
 	myWindow.Clear();
 	//bool demo = false;
 	//ImGui::ShowDemoWindow(&demo);
