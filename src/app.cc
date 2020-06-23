@@ -14,7 +14,6 @@
 #include <geometry.h>
 #include <material.h>
 #include <clearwindow_rendercommand.h>
-#include <object.h>
 
 using namespace VC;
 
@@ -64,8 +63,9 @@ void App::Init()
   triangleMat.setFragmentShader(fragmentShaderSource);
 
   Object *triangle = new Object();
-  triangle->setGeometry(&triangleGeo);
-  triangle->setMaterial(&triangleMat);
+  triangle->setGeometry(triangleGeo);
+  triangle->setMaterial(triangleMat);
+  objectsInScene_.push_back(triangle);
 
 }
 
@@ -104,19 +104,22 @@ void App::draw()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-	//ClearWindowCommand* cCommand = new ClearWindowCommand();
-	//cCommand->setColor(0.8f, 0.8f, 0.8f);
-	//comands_.push_back(cCommand);
-	myWindow.Clear();
+	ClearWindowCommand* cCommand = new ClearWindowCommand();
+	cCommand->setColor(0.8f, 0.8f, 0.8f);
+	commands_.push_back(cCommand);
+	//myWindow.Clear();
 
+  for each (Object* o in objectsInScene_)
+  {
+    o->draw(&commands_);
+  }
 
-
-	for each (RenderCommand* com in comands_)
+	for each (RenderCommand* com in commands_)
 	{
 		com->Action();
 	}
 
-  comands_.clear();
+  commands_.clear();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

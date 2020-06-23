@@ -7,6 +7,7 @@
 #include <buffer_rendercommand.h>
 #include <material_rendercommand.h>
 #include <draw_rendercommand.h>
+#include <object.h>
 #include <vector>
 
 namespace VC {
@@ -22,7 +23,8 @@ namespace VC {
 		void update();
 		void draw();
 		Window myWindow;
-    std::vector<RenderCommand*> comands_;
+    std::vector<RenderCommand*> commands_;
+    std::vector<Object*> objectsInScene_;
 	};
 
 

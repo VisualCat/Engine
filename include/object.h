@@ -13,17 +13,17 @@ namespace VC {
 
   public:
 
-    void setGeometry(Geometry *newGeo);
-    void setMaterial(Material *newMat);
+    void setGeometry(Geometry newGeo);
+    void setMaterial(Material newMat);
 
-    Geometry* getGeometry();
-    Material* getMaterial();
+    Geometry getGeometry();
+    Material getMaterial();
 
-    void draw(std::vector<RenderCommand*> *comandsList);
+    void draw(std::vector<RenderCommand*> *commandsList);
 
   private:
-    Geometry *geometry_;
-    Material *material_;
+    Geometry geometry_;
+    Material material_;
 
   };
 

@@ -8,7 +8,7 @@
 
 using namespace VC;
 
-void Object::setGeometry(Geometry * newGeo)
+void Object::setGeometry(Geometry newGeo)
 {
 
 #ifdef VERBOSE
@@ -22,7 +22,7 @@ void Object::setGeometry(Geometry * newGeo)
 
 }
 
-void Object::setMaterial(Material * newMat)
+void Object::setMaterial(Material newMat)
 {
 
 #ifdef VERBOSE
@@ -36,30 +36,30 @@ void Object::setMaterial(Material * newMat)
 
 }
 
-Geometry* Object::getGeometry()
+Geometry Object::getGeometry()
 {
   return geometry_;
 }
 
-Material* Object::getMaterial()
+Material Object::getMaterial()
 {
   return material_;
 }
 
-void VC::Object::draw(std::vector<RenderCommand*> *comandsList)
+void VC::Object::draw(std::vector<RenderCommand*> *commandsList)
 {
 
   BufferCommand* bComand = new BufferCommand();
-  bComand->setGeometry(geometry_->ID);
+  bComand->setGeometry(geometry_.ID);
   
   MaterialCommand* mComand = new MaterialCommand();
-  mComand->setMaterial(material_->ID);
+  mComand->setMaterial(material_.ID);
 
   DrawCommand* dCommand = new DrawCommand();
-  dCommand->setGeometry(geometry_->ID);
+  dCommand->setGeometry(geometry_.ID);
 
-  comandsList->push_back(bComand);
-  comandsList->push_back(mComand);
-  comandsList->push_back(dCommand);
+  commandsList->push_back(bComand);
+  commandsList->push_back(mComand);
+  commandsList->push_back(dCommand);
 
 }
