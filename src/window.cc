@@ -108,6 +108,19 @@ s8 Window::Terminate() {
 	return 0;
 }
 
+bool Window::getKeyPressed(VC_KEY key)
+{
+	int aux;
+	aux = glfwGetKey(window_, key);
+	if (aux == GLFW_PRESS)
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 void Window::ClearColor(float r, float g, float b, float a)
 {
 	//TODO this should be a command

@@ -87,21 +87,17 @@ void App::Loop()
 
 void App::End()
 {
-
 	myWindow.Terminate();
-
 }
 
 void App::input()
 {
-
+	myWindow.PollEvents();
+	myWindow.getKeyPressed(Window::kVC_KEY_SPACE);
 }
 
 void App::update()
 {
-
-	myWindow.PollEvents();
-	
 
 }
 
