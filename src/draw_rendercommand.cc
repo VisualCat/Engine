@@ -15,11 +15,11 @@ DrawCommand::DrawCommand()
 
 void DrawCommand::Action()
 {
-	glDrawArrays(GL_TRIANGLES, 0, buffer_.getNumVertex());
+	glDrawArrays(GL_TRIANGLES, 0, geometry_.getNumVertex());
 
 }
 
-void DrawCommand::setBuffer(u32 id)
+void DrawCommand::setGeometry(u32 id)
 {
-	buffer_ = Buffer{ id };
+  geometry_ = Geometry{ id };
 }

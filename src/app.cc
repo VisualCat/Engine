@@ -11,7 +11,7 @@
 #include <IMGUI/imgui_impl_glfw.h>
 #include <IMGUI/imgui_impl_opengl3.h>
 
-#include <buffer.h>
+#include <geometry.h>
 #include <material.h>
 #include <clearwindow_rendercommand.h>
 
@@ -20,7 +20,7 @@ using namespace VC;
 void App::Init()
 {
 
-	Buffer::Inicialize(kmaxBuffers);
+	Geometry::Inicialize(kmaxBuffers);
 	Material::Inicialize(kmaxMaterials);
 
 	myWindow.Init();
@@ -56,17 +56,17 @@ void App::Init()
 	};
 
 	Material triangleMat{ 1 };
-	Buffer triangle{ 1 };
+	Geometry triangle{ 1 };
 	BufferCommand* bComand = new BufferCommand();
 	triangle.setVertex(vertices, 3);
-	bComand->setBuffer(triangle.ID);
+	bComand->setGeometry(triangle.ID);
 	triangleMat.setVertexShader(vertexShaderSource);
 	triangleMat.setFragmentShader(fragmentShaderSource);
 	MaterialCommand* mComand = new MaterialCommand();
 	mComand->setMaterial(triangleMat.ID);
 
 	DrawCommand* dCommand = new DrawCommand();
-	dCommand->setBuffer(triangle.ID);
+	dCommand->setGeometry(triangle.ID);
 
 	comands_.push_back(bComand);
 	comands_.push_back(mComand);

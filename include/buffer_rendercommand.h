@@ -2,7 +2,7 @@
 #define __BUFFER_RENDER_COMMAND__ 1
 
 #include <rendercommand.h>
-#include <buffer.h>
+#include <geometry.h>
 #include <platform_types.h>
 
 namespace VC {
@@ -16,11 +16,11 @@ namespace VC {
 
 		virtual void Action() override;
 
-		void setBuffer(u32 id);
+		void setGeometry(u32 id);
 
 	private:
 
-		Buffer buffer_;
+		Geometry geometry_;
 		
 
 	};

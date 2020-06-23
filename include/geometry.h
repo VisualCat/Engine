@@ -1,15 +1,15 @@
-#ifndef __VC_BUFFER__
-#define __VC_BUFFER__ 1
+#ifndef __VC_GEOMETRY__
+#define __VC_GEOMETRY__ 1
 
 #include <platform_types.h>
 
 namespace VC {
 
-	class Buffer
+	class Geometry
 	{
 	public:
 
-		static void Inicialize(u32 max_buffers);
+		static void Inicialize(u32 max_geometries);
 
 		void setVertex(float* vertices, u32 num_vertices);
 		float* getVertex();
@@ -21,8 +21,8 @@ namespace VC {
 		
 
 
-		u32 getBufferID();
-		void setBufferID(u32 id);
+		u32 getGeometryID();
+		void setGeometryID(u32 id);
 
 
 		u32 ID;
