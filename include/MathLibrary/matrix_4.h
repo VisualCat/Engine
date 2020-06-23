@@ -30,7 +30,8 @@ class Matrix4x4{
 
   Matrix4x4 Transpose() const;
 
-  static Matrix4x4 lookAt(Vector3 from, Vector3 to, Vector3 up);
+  static Matrix4x4 LookAt(Vector3 from, Vector3 to, Vector3 up);
+  static Matrix4x4 Projection(float fov, float aspectRatio, float znear, float zfar);
 
   static Matrix4x4 Translate(const Vector3& distance);
   static Matrix4x4 Translate(float x, float y, float z);
@@ -347,7 +348,7 @@ inline Matrix4x4 Matrix4x4::Transpose() const {
   return result;
 }
 
-inline Matrix4x4 Matrix4x4::lookAt(Vector3 from, Vector3 to, Vector3 up) {
+inline Matrix4x4 Matrix4x4::LookAt(Vector3 from, Vector3 to, Vector3 up) {
 	Vector3 forward = (from - to);
 	forward.Normalize();
 	Vector3 right = Vector3::CrossProduct(up.Normalized(), forward);
@@ -370,6 +371,19 @@ inline Matrix4x4 Matrix4x4::lookAt(Vector3 from, Vector3 to, Vector3 up) {
 	//camToWorld[3][2] = from.z;
 
 	return camToWorld;
+}
+
+inline Matrix4x4 Matrix4x4::Projection(float fov, float aspectRatio, float znear, float zfar) {
+
+	float yScale = (1 / (tan((fov / 2) * 3.1416 / 180)));
+	float xScale = yScale / aspectRatio;
+	float frustrumLength = znear - zfar;
+
+	return Matrix4x4(xScale, 0.0f, 0.0f, 0.0f,
+		0.0f, yScale, 0.0f, 0.0f,
+		0.0f, 0.0f, ((znear + zfar) / (frustrumLength)), ((2 * zfar * znear) / (frustrumLength)),
+		0.0f, 0.0f, -1.0f, 0.0f);
+	
 }
 
 inline Matrix4x4 Matrix4x4::Translate(const Vector3& distance){

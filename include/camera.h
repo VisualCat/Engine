@@ -25,9 +25,10 @@ namespace VC {
 		Vector3 cameraFront;
 		Vector3 cameraUp;
 
+		Matrix4x4 view;
+		Matrix4x4 projection;
 
 	private:
-		Matrix4x4 view;
 		
 
 
