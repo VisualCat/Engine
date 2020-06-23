@@ -11,6 +11,7 @@
 #include <IMGUI/imgui_impl_glfw.h>
 #include <IMGUI/imgui_impl_opengl3.h>
 
+
 #include <geometry.h>
 #include <material.h>
 #include <clearwindow_rendercommand.h>
@@ -27,6 +28,7 @@ void App::Init()
 	myWindow.CreateWindow(kWindowWidth, kWindowHeight, "Main Window");
 
 	myWindow.MakeCurrentContext();
+	camera.init();
 
 	
 	const char* vertexShaderSource = R"(
@@ -89,12 +91,20 @@ void App::End()
 void App::input()
 {
 	myWindow.PollEvents();
-	myWindow.getKeyPressed(Window::kVC_KEY_SPACE);
+	if (myWindow.getKeyPressed(Window::kVC_KEY_W))
+	{
+		camera.cameraPos += Vector3(0.0f,0.0f,1.0f);
+	}
+	if (myWindow.getKeyPressed(Window::kVC_KEY_S))
+	{
+		camera.cameraPos += Vector3(0.0f, 0.0f, -1.0f);
+	}
+	
 }
 
 void App::update()
 {
-
+	camera.update();
 }
 
 void App::draw()
@@ -109,10 +119,10 @@ void App::draw()
 	commands_.push_back(cCommand);
 	//myWindow.Clear();
 
-  for each (Object* o in objectsInScene_)
-  {
-    o->draw(&commands_);
-  }
+	for each (Object * o in objectsInScene_)
+	{
+		o->draw(&commands_);
+	}
 
 	for each (RenderCommand* com in commands_)
 	{

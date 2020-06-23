@@ -10,6 +10,8 @@
 #include <object.h>
 #include <vector>
 
+#include <camera.h>
+
 namespace VC {
 
 	class App {
@@ -22,9 +24,11 @@ namespace VC {
 		void input();
 		void update();
 		void draw();
+
 		Window myWindow;
-    std::vector<RenderCommand*> commands_;
-    std::vector<Object*> objectsInScene_;
+		std::vector<RenderCommand*> commands_;
+		std::vector<Object*> objectsInScene_;
+		Camera camera;
 	};
 
 

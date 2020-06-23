@@ -30,6 +30,7 @@ class Matrix4x4{
 
   Matrix4x4 Transpose() const;
 
+  static Matrix4x4 lookAt(Vector3 from, Vector3 to, Vector3 up);
 
   static Matrix4x4 Translate(const Vector3& distance);
   static Matrix4x4 Translate(float x, float y, float z);
@@ -344,6 +345,31 @@ inline Matrix4x4 Matrix4x4::Transpose() const {
   result.m[12] = this->m[3]; result.m[13] = this->m[7]; result.m[14] = this->m[11]; result.m[15] = this->m[15];
 
   return result;
+}
+
+inline Matrix4x4 Matrix4x4::lookAt(Vector3 from, Vector3 to, Vector3 up) {
+	Vector3 forward = (from - to);
+	forward.Normalize();
+	Vector3 right = Vector3::CrossProduct(up.Normalized(), forward);
+	//Vector3 up = crossProduct(forward, right);
+
+	Matrix4x4 camToWorld(right.x, right.y, right.z,0.0f, up.x,up.y,up.z,0.0f, forward.x,forward.y,forward.z, 0.0f, from.x,from.y,from.z,1.0f);
+
+	//camToWorld[0][0] = right.x;
+	//camToWorld[0][1] = right.y;
+	//camToWorld[0][2] = right.z;
+	//camToWorld[1][0] = up.x;
+	//camToWorld[1][1] = up.y;
+	//camToWorld[1][2] = up.z;
+	//camToWorld[2][0] = forward.x;
+	//camToWorld[2][1] = forward.y;
+	//camToWorld[2][2] = forward.z;
+	//
+	//camToWorld[3][0] = from.x;
+	//camToWorld[3][1] = from.y;
+	//camToWorld[3][2] = from.z;
+
+	return camToWorld;
 }
 
 inline Matrix4x4 Matrix4x4::Translate(const Vector3& distance){

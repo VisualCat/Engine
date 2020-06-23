@@ -32,6 +32,7 @@ project "project0"
     path.join(PROJ_DIR, "include/GLFW"),
     path.join(PROJ_DIR, "include/GLEW"),
     path.join(PROJ_DIR, "include/IMGUI"),
+    path.join(PROJ_DIR, "include/MathLibrary"),
    
     
   }
@@ -48,6 +49,8 @@ project "project0"
     path.join(PROJ_DIR,"./include/IMGUI/*.h"),
     path.join(PROJ_DIR,"./include/IMGUI/*.cpp"),
     path.join(PROJ_DIR,"./include/*.h"),
+    path.join(PROJ_DIR, "include/MathLibrary/*.h"),
+    path.join(PROJ_DIR, "include/MathLibrary/*.cc"),
     
     path.join(PROJ_DIR,"./src/*.cc"),
 
