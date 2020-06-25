@@ -35,14 +35,14 @@ void App::Init()
 		#version 330 core
 
 		layout (location = 0) in vec3 aPos;
-		
+
     uniform mat4 u_v_matrix;
     uniform mat4 u_p_matrix;
 
     void main()
 		{
 
-       mat4 u_m_matrix = mat4(5,.0,.0,.0,.0,5,.0,.0,.0,.0,5,.0,.0,.0,.0,1);
+       mat4 u_m_matrix = mat4(1.2,.0,.0,.0,.0,1.2,.0,.0,.0,.0,1.2,.0,.0,.0,.0,1);
 
 		   gl_Position = u_p_matrix * u_v_matrix * u_m_matrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 		}
@@ -59,16 +59,54 @@ void App::Init()
 	)";
 
 
-	float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f
-	};
+  float vertices[] = {
+        -0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f, -0.5f, 
+         0.5f,  0.5f, -0.5f, 
+         0.5f,  0.5f, -0.5f, 
+        -0.5f,  0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+
+        -0.5f, -0.5f,  0.5f, 
+         0.5f, -0.5f,  0.5f, 
+         0.5f,  0.5f,  0.5f, 
+         0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f, -0.5f,  0.5f, 
+
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f,  0.5f, 
+        -0.5f,  0.5f,  0.5f, 
+
+         0.5f,  0.5f,  0.5f, 
+         0.5f,  0.5f, -0.5f, 
+         0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f,  0.5f, 
+         0.5f,  0.5f,  0.5f, 
+
+        -0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f, -0.5f, 
+         0.5f, -0.5f,  0.5f, 
+         0.5f, -0.5f,  0.5f, 
+        -0.5f, -0.5f,  0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+
+        -0.5f,  0.5f, -0.5f, 
+         0.5f,  0.5f, -0.5f, 
+         0.5f,  0.5f,  0.5f, 
+         0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f, -0.5f
+  };
 
 	Material triangleMat{ 1 };
 	Geometry triangleGeo{ 1 };
 	
-  triangleGeo.setVertex(vertices, 3);
+  triangleGeo.setVertex(vertices, 12);
   triangleMat.setVertexShader(vertexShaderSource);
   triangleMat.setFragmentShader(fragmentShaderSource);
 
@@ -115,6 +153,21 @@ void App::update()
 	camera_.update();
 }
 
+void App::ImGuiDraw() {
+
+  if (ImGui::Begin("Test"))
+  {
+
+    ImGui::Text("CAMERA POSITION:\n x = %f\n %f\n %f\n", camera_.cameraPos.x, camera_.cameraPos.y, camera_.cameraPos.z);
+
+    ImGui::End();
+  }
+
+  ImGui::Render();
+  ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+}
+
 void App::draw()
 {
 
@@ -139,8 +192,9 @@ void App::draw()
 
   commands_.clear();
 
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+  ImGuiDraw();
+
+	
 
 
 	window_.SwapBuffers();

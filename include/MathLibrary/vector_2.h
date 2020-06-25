@@ -179,7 +179,7 @@ inline Vector2 &Vector2::operator/=(float value) {
 	return *this;
 }
 inline float Vector2::Magnitude() const { 
-	return sqrt((x * x) + (y * y));
+	return sqrtf((x * x) + (y * y));
 }
 
 inline void Vector2::Normalize() {

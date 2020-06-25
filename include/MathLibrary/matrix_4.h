@@ -375,14 +375,14 @@ inline Matrix4x4 Matrix4x4::LookAt(Vector3 from, Vector3 to, Vector3 up) {
 
 inline Matrix4x4 Matrix4x4::Projection(float fov, float aspectRatio, float znear, float zfar) {
 
-	float yScale = (1 / (tan((fov / 2) * 3.1416 / 180)));
+	float yScale = (1.0f / (tanf((fov / 2.0f) * 3.1416f / 180.0f)));
 	float xScale = yScale / aspectRatio;
 	float frustrumLength = znear - zfar;
 
 	return Matrix4x4(xScale, 0.0f, 0.0f, 0.0f,
 		0.0f, yScale, 0.0f, 0.0f,
-		0.0f, 0.0f, ((znear + zfar) / (frustrumLength)), ((2 * zfar * znear) / (frustrumLength)),
-		0.0f, 0.0f, -1.0f, 0.0f);
+		0.0f, 0.0f, ((znear + zfar) / (frustrumLength)), ((2.0f * zfar * znear) / (frustrumLength)),
+		0.0f, 0.0f, -1.0f, 0.0f).Transpose();
 	
 }
 

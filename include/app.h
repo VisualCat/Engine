@@ -24,6 +24,7 @@ namespace VC {
 		void input();
 		void update();
 		void draw();
+    void ImGuiDraw();
 
 		Window window_;
 		std::vector<RenderCommand*> commands_;

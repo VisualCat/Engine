@@ -23,7 +23,7 @@ void ViewProjectionUniformCommand::Action()
   uniform_position = glGetUniformLocation(material_.getMaterialID(), "u_p_matrix");
   mat = camera_->projection.m;
   glUniformMatrix4fv(uniform_position, 1, GL_FALSE, (const GLfloat*)mat);
-
+  
 }
 
 void ViewProjectionUniformCommand::setMaterial(Material mat)
