@@ -33,6 +33,7 @@ project "project0"
     path.join(PROJ_DIR, "include/GLEW"),
     path.join(PROJ_DIR, "include/IMGUI"),
     path.join(PROJ_DIR, "include/MathLibrary"),
+    path.join(PROJ_DIR, "include/glm"),
    
     
   }

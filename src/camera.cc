@@ -1,6 +1,6 @@
 #include <camera.h>
 #define M_PI 3.14159265358979323846264338327950288
-#define kcameraSpeed 0.5f
+#define kcameraSpeed 0.05f
 
 using namespace VC;
 
@@ -65,7 +65,7 @@ void Camera::input(Window* window)
 		lastX = window->xMouse;
 		lastY = window->yMouse;
 
-		float sensitivity = 0.01f;
+		float sensitivity = 0.1f;
 		xoffset *= sensitivity;
 		yoffset *= sensitivity;
 
