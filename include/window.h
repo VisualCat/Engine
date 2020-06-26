@@ -134,10 +134,15 @@ namespace VC {
 			kVC_KEY_RIGHT_SUPER = 347,
 			kVC_KEY_MENU = 348,
 		};
+		enum VC_MOUSE_KEY {
+			KVC_MOUSE_KEY_RIGTH = 0,
+			KVC_MOUSE_KEY_LEFT = 1
+		};
 		s8 Init();
 		void CreateWindow(u32 width, u32 height, const char* title);
 
-		void GetMouseInput();
+		bool GetMousePressed(VC_MOUSE_KEY key);
+		void GetMousePosition();
 		void PollEvents();
 		void SwapBuffers();
 		s32 ShouldClose();
@@ -148,9 +153,9 @@ namespace VC {
 		void ClearColor(float r, float g, float b, float a);
 		void Clear();
 
-	private:
 		double xMouse;
 		double yMouse;
+	private:
 
 	};
 

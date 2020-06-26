@@ -43,11 +43,23 @@ void Window::CreateWindow(u32 width, u32 height, const char* title) {
 	yMouse = height/2.0;
 	//TODO Check if we need to remove this
 	glViewport(0, 0, width, height);
+	glEnable(GL_DEPTH_TEST);
 
 }
 
-void Window::GetMouseInput() {
+void Window::GetMousePosition() {
 	glfwGetCursorPos(window_, &xMouse, &yMouse);
+	
+}
+bool Window::GetMousePressed(VC_MOUSE_KEY key) {
+	if (key == KVC_MOUSE_KEY_RIGTH)
+	{
+		return glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_RIGHT);
+	}
+	else {
+		return glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_LEFT);
+	}
+
 }
 
 void Window::PollEvents() {

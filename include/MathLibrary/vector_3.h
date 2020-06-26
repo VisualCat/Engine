@@ -248,9 +248,9 @@ inline void Vector3::operator=(float value) {
 
 inline Vector3 Vector3::operator*(float value) const {
 	Vector3 result;
-	result = this->x * value;
-	result = this->y * value;
-	result = this->z * value;
+	result.x = this->x * value;
+	result.y = this->y * value;
+	result.z = this->z * value;
 	return result;
 }
 
@@ -263,9 +263,9 @@ inline Vector3& Vector3::operator*=(float value) {
 
 inline Vector3 Vector3::operator/(float value) const {
 	Vector3 result;
-	result = this->x / value;
-	result = this->y / value;
-	result = this->z / value;
+	result.x = this->x / value;
+	result.y = this->y / value;
+	result.z = this->z / value;
 	return result;
 }
 

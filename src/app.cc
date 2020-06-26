@@ -5,6 +5,8 @@
 #define kmaxBuffers 200000
 #define kmaxMaterials 200000
 
+
+
 #include <app.h>
 
 #include <GLEW/GL/glew.h>
@@ -137,15 +139,8 @@ void App::End()
 void App::input()
 {
 	window_.PollEvents();
-	if (window_.getKeyPressed(Window::kVC_KEY_W))
-	{
-		camera_.cameraPos += Vector3(0.0f,0.0f,001.0f);
-	}
-	if (window_.getKeyPressed(Window::kVC_KEY_S))
-	{
-		camera_.cameraPos += Vector3(0.0f, 0.0f, -001.0f);
-	}
-	
+	window_.GetMousePosition();
+    camera_.input(&window_);
 }
 
 void App::update()
