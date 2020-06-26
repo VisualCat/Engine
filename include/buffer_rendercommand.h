@@ -16,11 +16,13 @@ namespace VC {
 
 		virtual void Action() override;
 
-		void setGeometry(u32 id);
+    void setGeometry(u32 id);
+   
 
 	private:
 
-		Geometry geometry_;
+    Geometry geometry_;
+    
 		
 
 	};

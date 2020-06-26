@@ -21,6 +21,8 @@ namespace VC {
 	private:
 
 		Material material;
+    bool isShaderCompiled(u32 shaderID);
+    bool isProgramLinked(u32 programID);
 
 
 
