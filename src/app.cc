@@ -40,13 +40,14 @@ void App::Init()
 
     uniform mat4 u_v_matrix;
     uniform mat4 u_p_matrix;
+    uniform mat4 u_m_matrix;
 
     void main()
 		{
 
-       mat4 u_m_matrix = mat4(1.2,.0,.0,.0,.0,1.2,.0,.0,.0,.0,1.2,.0,.0,.0,.0,1);
-
-		   gl_Position = u_p_matrix * u_v_matrix * u_m_matrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+           
+           mat4 mvp = u_p_matrix * u_v_matrix * u_m_matrix;
+		   gl_Position = mvp * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 		}
 	)";
 
@@ -56,7 +57,7 @@ void App::Init()
 
 		void main()
 		{
-			FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+			FragColor = vec4(1.0, 0.5, 0.2, 1.0);
 		} 
 	)";
 
@@ -108,7 +109,7 @@ void App::Init()
 	Material triangleMat{ 1 };
 	Geometry triangleGeo{ 1 };
 	
-  triangleGeo.setVertex(vertices, 12);
+  triangleGeo.setVertex(vertices, 36);
   triangleMat.setVertexShader(vertexShaderSource);
   triangleMat.setFragmentShader(fragmentShaderSource);
 
@@ -153,7 +154,12 @@ void App::ImGuiDraw() {
   if (ImGui::Begin("Test"))
   {
 
-    ImGui::Text("CAMERA POSITION:\n x = %f\n %f\n %f\n", camera_.cameraPos.x, camera_.cameraPos.y, camera_.cameraPos.z);
+	  ImGui::Text("CAMERA POSITION:\n x = %f\n y = %f\n z = %f\n", camera_.cameraPos.x, camera_.cameraPos.y, camera_.cameraPos.z);
+	  ImGui::Text("CAMERA FRONT:\n x = %f\n y = %f\n z = %f\n", camera_.cameraFront.x, camera_.cameraFront.y, camera_.cameraFront.z);
+	  ImGui::Text("CAMERA UP:\n x = %f\n y = %f\n z = %f\n", camera_.cameraUp.x, camera_.cameraUp.y, camera_.cameraUp.z);
+	  ImGui::Text("CAMERA RIGTH:\n x = %f\n y = %f\n z = %f\n", camera_.cameraRight.x, camera_.cameraRight.y, camera_.cameraRight.z);
+	  ImGui::Text("YAW = %f\n PITCH = %f\n ROLL = %f\n", camera_.yaw, camera_.pitch, camera_.roll);
+
 
     ImGui::End();
   }

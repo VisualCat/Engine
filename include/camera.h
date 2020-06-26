@@ -26,6 +26,8 @@ namespace VC {
 		Vector3 cameraPos;
 		Vector3 cameraFront;
 		Vector3 cameraUp;
+		Vector3 WorldUp;
+		Vector3 cameraRight;
 
 		Vector3 direction;
 

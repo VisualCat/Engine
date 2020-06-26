@@ -20,7 +20,7 @@ class Matrix4x4{
 	Matrix4x4(const float* mat);
   ~Matrix4x4();
 
-  Matrix4x4 Identity() const;
+  static Matrix4x4 Identity();
   Matrix4x4 Multiply(const Matrix4x4& other) const;
 
   float Determinant() const;
@@ -139,7 +139,7 @@ inline Matrix4x4::~Matrix4x4() {
 
 }
 
-inline Matrix4x4 Matrix4x4::Identity() const {
+inline Matrix4x4 Matrix4x4::Identity() {
 
 	Matrix4x4 result; 
 
@@ -348,29 +348,49 @@ inline Matrix4x4 Matrix4x4::Transpose() const {
   return result;
 }
 
-inline Matrix4x4 Matrix4x4::LookAt(Vector3 from, Vector3 to, Vector3 up) {
+inline Matrix4x4 Matrix4x4::LookAt(Vector3 from, Vector3 to, Vector3 WorldUp) {
 	Vector3 forward = (from - to);
 	forward.Normalize();
-	Vector3 right = Vector3::CrossProduct(up.Normalized(), forward);
-	//Vector3 up = crossProduct(forward, right);
+	Vector3 right = Vector3::CrossProduct(WorldUp, forward);
+	Vector3 up = Vector3::CrossProduct(forward, right);
 
-	Matrix4x4 camToWorld(right.x, right.y, right.z,0.0f, up.x,up.y,up.z,0.0f, forward.x,forward.y,forward.z, 0.0f, from.x,from.y,from.z,1.0f);
+	Matrix4x4 translation = Identity(); // Identity matrix by default
+	translation.m[3] = -from.x; // Third column, first row
+	translation.m[7] = -from.y;
+	translation.m[11] = -from.z;
+	Matrix4x4 rotation = Identity();
+	rotation.m[0] = right.x; // First column, first row
+	rotation.m[1] = right.y;
+	rotation.m[2] = right.z;
+	rotation.m[4] = up.x; // First column, second row
+	rotation.m[5] = up.y;
+	rotation.m[6] = up.z;
+	rotation.m[8] = forward.x; // First column, third row
+	rotation.m[9] = forward.y;
+	rotation.m[10] = forward.z;
 
-	//camToWorld[0][0] = right.x;
-	//camToWorld[0][1] = right.y;
-	//camToWorld[0][2] = right.z;
-	//camToWorld[1][0] = up.x;
-	//camToWorld[1][1] = up.y;
-	//camToWorld[1][2] = up.z;
-	//camToWorld[2][0] = forward.x;
-	//camToWorld[2][1] = forward.y;
-	//camToWorld[2][2] = forward.z;
-	//
-	//camToWorld[3][0] = from.x;
-	//camToWorld[3][1] = from.y;
-	//camToWorld[3][2] = from.z;
+	// Return lookAt matrix as combination of translation and rotation matrix
+	return rotation.Multiply(translation).Transpose(); // Remember to read from right to left (first translation then rotation)
 
+	/*
+	Matrix4x4 camToWorld = Identity();
+
+	camToWorld.m[0] = right.x;
+	camToWorld.m[4] = right.y;
+	camToWorld.m[8] = right.z;
+	camToWorld.m[1] = up.x;
+	camToWorld.m[5] = up.y;
+	camToWorld.m[9] = up.z;
+	camToWorld.m[2] = forward.x;
+	camToWorld.m[6] = forward.y;
+	camToWorld.m[10] = forward.z;
+	
+	camToWorld.m[3] = from.x;
+	camToWorld.m[7] = from.y;
+	camToWorld.m[11] = from.z;
 	return camToWorld;
+
+	*/
 }
 
 inline Matrix4x4 Matrix4x4::Projection(float fov, float aspectRatio, float znear, float zfar) {
@@ -384,6 +404,8 @@ inline Matrix4x4 Matrix4x4::Projection(float fov, float aspectRatio, float znear
 		0.0f, 0.0f, ((znear + zfar) / (frustrumLength)), ((2.0f * zfar * znear) / (frustrumLength)),
 		0.0f, 0.0f, -1.0f, 0.0f).Transpose();
 	
+
+
 }
 
 inline Matrix4x4 Matrix4x4::Translate(const Vector3& distance){
