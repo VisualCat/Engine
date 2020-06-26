@@ -53,11 +53,13 @@ void Object::draw(std::vector<RenderCommand*> *commandsList, Camera *myCamera)
   BufferCommand* bComand = new BufferCommand();
   bComand->setGeometry(geometry_.ID);
   
+  
   MaterialCommand* mComand = new MaterialCommand();
   mComand->setMaterial(material_.ID);
 
   DrawCommand* dCommand = new DrawCommand();
   dCommand->setGeometry(geometry_.ID);
+  dCommand->setMaterial(material_.ID);
 
   commandsList->push_back(bComand);
   commandsList->push_back(mComand);

@@ -16,18 +16,44 @@ BufferCommand::BufferCommand()
 
 void BufferCommand::Action()
 {
-	if (geometry_.getGeometryID() == 0)
+
+  
+  unsigned int posSize = geometry_.getVertexSizeInBytes();
+  unsigned int normSize = geometry_.getNormalsSizeInBytes();
+  unsigned int uvSize = geometry_.getUVsSizeInBytes();
+
+	if (geometry_.getVerticesBufferID() == 0)
 	{
 		GLuint geometry_ID;
 		glGenBuffers(1, &geometry_ID);
-		geometry_.setGeometryID(geometry_ID);
-		glBindBuffer(GL_ARRAY_BUFFER, geometry_.getGeometryID());
-		glBufferData(GL_ARRAY_BUFFER, geometry_.getNumVertex() * sizeof(float), geometry_.getVertex(), GL_STATIC_DRAW);
+		geometry_.setVerticesBufferID(geometry_ID);
+		glBindBuffer(GL_ARRAY_BUFFER, geometry_.getVerticesBufferID());
+    
+    unsigned int totalSize = posSize + normSize + uvSize;
+    glBufferData(GL_ARRAY_BUFFER, totalSize, NULL, GL_STATIC_DRAW);
 
-	}
-	glBindBuffer(GL_ARRAY_BUFFER, geometry_.getGeometryID());
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+   
+
+    unsigned int myOffset = 0;
+    glBufferSubData(GL_ARRAY_BUFFER, myOffset, posSize, geometry_.getVertex());
+    myOffset += posSize;
+    glBufferSubData(GL_ARRAY_BUFFER, myOffset, normSize, geometry_.getNormals());
+    myOffset += normSize;
+    glBufferSubData(GL_ARRAY_BUFFER, myOffset, uvSize, geometry_.getUVs());
+    myOffset += uvSize;
+
+    GLuint elements_ID;
+    glGenBuffers(1, &elements_ID);
+    geometry_.setElementsBufferID(geometry_ID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, geometry_.getElementsBufferID());
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, geometry_.getNumElements() * sizeof(unsigned int), geometry_.getElements(), GL_STATIC_DRAW);
+
+  }
+  
+
+	
+
+  
 
 
 }
@@ -36,3 +62,5 @@ void BufferCommand::setGeometry(u32 id)
 {
 	geometry_ = Geometry{ id };
 }
+
+

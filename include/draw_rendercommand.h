@@ -3,6 +3,7 @@
 
 #include <rendercommand.h>
 #include <platform_types.h>
+#include <material.h>
 #include <geometry.h>
 
 namespace VC {
@@ -17,11 +18,12 @@ namespace VC {
 		virtual void Action() override;
 
 		void setGeometry(u32 id);
+    void setMaterial(u32 id);
 
 	private:
 
     Geometry geometry_;
-
+    Material material_;
 
 
 	};
