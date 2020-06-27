@@ -25,6 +25,7 @@ using namespace VC;
 
 void App::Init()
 {
+	start_time = std::chrono::system_clock::now();
 	Geometry::Inicialize(kmaxBuffers);
 	Material::Inicialize(kmaxMaterials);
 
@@ -160,8 +161,9 @@ void App::update()
 	commands_.push_back(cCommand);
 
 	camera_.update();
+	float timer = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_time).count()/1000.0f;
 
-  wavemovementsys_->Update();
+  wavemovementsys_->Update(timer);
   rendersys_->Update(&commands_, &camera_);
   
 }
@@ -200,12 +202,12 @@ void App::draw()
 	//{
 	//	o->draw(&commands_, &camera_);
 	//}
-
+	
 	for each (RenderCommand* com in commands_)
 	{
 		com->Action();
 	}
-
+	//commands_.erase(commands_.begin(), commands_.end());
   commands_.clear();
 
   ImGuiDraw();

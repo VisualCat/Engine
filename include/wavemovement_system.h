@@ -7,6 +7,7 @@
 #include <memory>
 #include <camera.h>
 #include <cordinator.h>
+#include <chrono>
 
 namespace VC {
 
@@ -15,7 +16,7 @@ namespace VC {
   public:
     void Init(Coordinator* cordinator);
 
-    void Update();
+    void Update(float time);
 
   private:
     Coordinator* cordinator_;

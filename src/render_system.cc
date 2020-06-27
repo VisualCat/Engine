@@ -21,8 +21,8 @@ void RenderSystem::Update(std::vector<RenderCommand*> *commands, Camera* camera)
 {
 	for (u32 entity : entities_)
 	{
-		Transform trans = cordinator_->GetComponent<Transform>(entity);
-		Render rend = cordinator_->GetComponent<Render>(entity);
+		Transform& trans = cordinator_->GetComponent<Transform>(entity);
+		Render& rend = cordinator_->GetComponent<Render>(entity);
 		BufferCommand* bComand = new BufferCommand();
 		bComand->setGeometry(rend.geo.ID);
 

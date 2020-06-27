@@ -15,6 +15,7 @@
 #include <render_system.h>
 #include <wavemovement_system.h>
 #include <camera.h>
+#include <chrono>
 
 namespace VC {
 
@@ -36,8 +37,9 @@ namespace VC {
 		std::vector<u32> entities_;
 		Camera camera_;
 		Coordinator cordinator_;
-    std::shared_ptr<RenderSystem> rendersys_;
-    std::shared_ptr<WaveMovementSystem> wavemovementsys_;
+		std::shared_ptr<RenderSystem> rendersys_;
+		std::shared_ptr<WaveMovementSystem> wavemovementsys_;
+		std::chrono::time_point<std::chrono::system_clock> start_time;
 	};
 
 

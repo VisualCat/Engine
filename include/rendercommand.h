@@ -2,7 +2,7 @@
 #define __RENDER_COMMAND__ 1
 
 namespace VC {
-
+	//this should be a referenced class?
 	class RenderCommand {
 
 	public:
