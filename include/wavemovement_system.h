@@ -1,25 +1,26 @@
 
-#ifndef __RENDER_SYSTEM__
-#define  __RENDER_SYSTEM__ 1
+
+#ifndef __WAVE_MOVEMENT_SYSTEM__
+#define  __WAVE_MOVEMENT_SYSTEM__ 1
 
 #include <system.h>
 #include <memory>
-#include <rendercommand.h>
 #include <camera.h>
 #include <cordinator.h>
 
 namespace VC {
 
-
-  class RenderSystem : public System
+  class WaveMovementSystem : public System
   {
   public:
     void Init(Coordinator* cordinator);
 
-    void Update(std::vector<RenderCommand*> *commands, Camera* camera);
+    void Update();
 
   private:
     Coordinator* cordinator_;
+    u32 counter_;
+    s32 directionModifier_;
   };
 
 }

@@ -3,14 +3,17 @@
 #define __VC_APP__ 1
 
 #include <window.h>
+
 #include <rendercommand.h>
 #include <buffer_rendercommand.h>
 #include <material_rendercommand.h>
 #include <draw_rendercommand.h>
+
 #include <object.h>
 #include <cordinator.h>
 #include <vector>
 #include <render_system.h>
+#include <wavemovement_system.h>
 #include <camera.h>
 
 namespace VC {
@@ -33,7 +36,8 @@ namespace VC {
 		std::vector<u32> entities_;
 		Camera camera_;
 		Coordinator cordinator_;
-		std::shared_ptr<RenderSystem> rendersys_;
+    std::shared_ptr<RenderSystem> rendersys_;
+    std::shared_ptr<WaveMovementSystem> wavemovementsys_;
 	};
 
 

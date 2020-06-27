@@ -38,7 +38,6 @@ void App::Init()
 	cordinator_.RegisterComponent<Transform>();
 	cordinator_.RegisterComponent<Render>();
 
-	//this auto is a shader pointer of RenderSystem type
 	rendersys_ = cordinator_.RegisterSystem<RenderSystem>();
 	{
 		Signature signature;
@@ -48,6 +47,13 @@ void App::Init()
 	}
 	rendersys_->Init(&cordinator_);
 
+  wavemovementsys_ = cordinator_.RegisterSystem<WaveMovementSystem>();
+  {
+    Signature signature;
+    signature.set(cordinator_.GetComponentType<Transform>());
+    cordinator_.SetSystemSignature<WaveMovementSystem>(signature);
+  }
+  wavemovementsys_->Init(&cordinator_);
 
 	const char* vertexShaderSource = R"(
 		#version 330 core
@@ -154,7 +160,10 @@ void App::update()
 	commands_.push_back(cCommand);
 
 	camera_.update();
-	rendersys_->Update(&commands_,&camera_);
+
+  wavemovementsys_->Update();
+  rendersys_->Update(&commands_, &camera_);
+  
 }
 
 void App::ImGuiDraw() {

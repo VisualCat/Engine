@@ -56,7 +56,7 @@ void Window::GetMousePosition() {
 	
 }
 bool Window::GetMousePressed(VC_MOUSE_KEY key) {
-	if (key == KVC_MOUSE_KEY_RIGTH)
+	if (key == KVC_MOUSE_KEY_RIGHT)
 	{
 		return glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_RIGHT);
 	}

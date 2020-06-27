@@ -1,3 +1,5 @@
+
+
 #include <render_system.h>
 #include <transform_component.h>
 #include <render_component.h>
@@ -7,6 +9,7 @@
 #include <draw_rendercommand.h>
 #include <viewprojection_uniform_rendercommand.h>
 #include <model_uniform_rendercommand.h>
+
 using namespace VC;
 
 void RenderSystem::Init(Coordinator* cordinator)
