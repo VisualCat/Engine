@@ -17,12 +17,14 @@
 #include <geometry.h>
 #include <material.h>
 #include <clearwindow_rendercommand.h>
+#include <transform_component.h>
+#include <render_component.h>
+#include <render_system.h>
 
 using namespace VC;
 
 void App::Init()
 {
-
 	Geometry::Inicialize(kmaxBuffers);
 	Material::Inicialize(kmaxMaterials);
 
@@ -32,7 +34,21 @@ void App::Init()
 	window_.MakeCurrentContext();
 	camera_.init();
 
-	
+	cordinator_.Init();
+	cordinator_.RegisterComponent<Transform>();
+	cordinator_.RegisterComponent<Render>();
+
+	//this auto is a shader pointer of RenderSystem type
+	rendersys_ = cordinator_.RegisterSystem<RenderSystem>();
+	{
+		Signature signature;
+		signature.set(cordinator_.GetComponentType<Render>());
+		signature.set(cordinator_.GetComponentType<Transform>());
+		cordinator_.SetSystemSignature<RenderSystem>(signature);
+	}
+	rendersys_->Init(&cordinator_);
+
+
 	const char* vertexShaderSource = R"(
 		#version 330 core
 
@@ -78,10 +94,32 @@ void App::Init()
   triangleMat.setVertexShader(vertexShaderSource);
   triangleMat.setFragmentShader(fragmentShaderSource);
 
-  Object *triangle = new Object();
-  triangle->setGeometry(triangleGeo);
-  triangle->setMaterial(triangleMat);
-  objectsInScene_.push_back(triangle);
+  //Object *triangle = new Object();
+  //triangle->setGeometry(triangleGeo);
+  //triangle->setMaterial(triangleMat);
+  //objectsInScene_.push_back(triangle);
+
+  for (s32 i = -5; i < 5; i++)
+  {
+	  for (s32 j = -5; j < 5; j++)
+	  {
+		  Transform aux = {
+			   glm::vec3(i*2,j*2,0.0f),
+			   glm::vec3(0.0f),
+			   0.0f,
+			   glm::vec3(1.0f)
+		  };
+		  Render auxRender = {
+			  triangleMat,
+			  triangleGeo
+		  };
+		  u32 entity = cordinator_.CreateEntity();
+		  cordinator_.AddComponent<Transform>(entity, aux);
+		  cordinator_.AddComponent<Render>(entity, auxRender);
+		  entities_.push_back(entity);
+	  }
+  }
+	 
 
 }
 
@@ -111,7 +149,12 @@ void App::input()
 
 void App::update()
 {
+	ClearWindowCommand* cCommand = new ClearWindowCommand();
+	cCommand->setColor(0.8f, 0.8f, 0.8f);
+	commands_.push_back(cCommand);
+
 	camera_.update();
+	rendersys_->Update(&commands_,&camera_);
 }
 
 void App::ImGuiDraw() {
@@ -141,15 +184,13 @@ void App::draw()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-	ClearWindowCommand* cCommand = new ClearWindowCommand();
-	cCommand->setColor(0.8f, 0.8f, 0.8f);
-	commands_.push_back(cCommand);
+
 	//window_.Clear();
 
-	for each (Object * o in objectsInScene_)
-	{
-		o->draw(&commands_, &camera_);
-	}
+	//for each (Object * o in objectsInScene_)
+	//{
+	//	o->draw(&commands_, &camera_);
+	//}
 
 	for each (RenderCommand* com in commands_)
 	{

@@ -8,8 +8,9 @@
 #include <material_rendercommand.h>
 #include <draw_rendercommand.h>
 #include <object.h>
+#include <cordinator.h>
 #include <vector>
-
+#include <render_system.h>
 #include <camera.h>
 
 namespace VC {
@@ -29,7 +30,10 @@ namespace VC {
 		Window window_;
 		std::vector<RenderCommand*> commands_;
 		std::vector<Object*> objectsInScene_;
+		std::vector<u32> entities_;
 		Camera camera_;
+		Coordinator cordinator_;
+		std::shared_ptr<RenderSystem> rendersys_;
 	};
 
 
