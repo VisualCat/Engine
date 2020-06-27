@@ -34,7 +34,8 @@ void ViewProjectionUniformCommand::Action()
   uniform_position = glGetUniformLocation(material_.getMaterialID(), "u_m_matrix");
   Matrix4x4 model = Matrix4x4::Identity();
   glUniformMatrix4fv(uniform_position, 1, GL_FALSE, (const GLfloat*)model.m);
-
+  GLenum error = glGetError();
+  if (error != 0) printf("An error occurred, vp render command\n");
   
 }
 

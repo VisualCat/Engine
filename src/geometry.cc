@@ -145,19 +145,20 @@ void Geometry::CreatePrism(bool withUVs, float width, float height, float depth,
   };
 
   u32 positionsArraySize = positions.size();
-  setVertex(positions.data(), positionsArraySize);
+  setVertex(positions.data(), positionsArraySize/3);
 
   u32 normalsArraySize = normals.size();
-  setNormals(normals.data(), normalsArraySize);
-
-  u32 indicesArraySize = indices.size();
-  setElements(indices.data(), indicesArraySize);
+  setNormals(normals.data(), normalsArraySize/3);
 
   if (withUVs)
   {
     u32 uvArraySize = uvs.size();
-    setUVs(uvs.data(), uvArraySize);
+    setUVs(uvs.data(), uvArraySize/2);
   }
+
+  u32 indicesArraySize = indices.size();
+  setElements(indices.data(), indicesArraySize);
+
 
 }
 

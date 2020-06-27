@@ -16,7 +16,7 @@ DrawCommand::DrawCommand()
 
 void DrawCommand::Action()
 {
-
+ 
   unsigned int posSize = geometry_.getVertexSizeInBytes();
   unsigned int normSize = geometry_.getNormalsSizeInBytes();
   unsigned int uvSize = geometry_.getUVsSizeInBytes();
@@ -54,10 +54,11 @@ void DrawCommand::Action()
     }
   }
 
+
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, geometry_.getElementsBufferID());
-	glDrawElements(GL_TRIANGLES, geometry_.getNumElements(), GL_UNSIGNED_INT, geometry_.getElements());
+	glDrawElements(GL_TRIANGLES, geometry_.getNumElements(), GL_UNSIGNED_INT, (void*)0);
   GLenum error = glGetError();
-  if (error != 0) printf("An error occurred\n");
+  if (error != 0) printf("An error occurred, draw render command\n");
 }
 
 void DrawCommand::setGeometry(u32 id)
