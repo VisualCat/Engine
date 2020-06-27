@@ -43,7 +43,11 @@ void Window::CreateWindow(u32 width, u32 height, const char* title) {
 	yMouse = height/2.0;
 	//TODO Check if we need to remove this
 	glViewport(0, 0, width, height);
-	glEnable(GL_DEPTH_TEST);
+// 	glEnable(GL_DEPTH_TEST);
+// 	glEnable(GL_CULL_FACE);
+// 	glCullFace(GL_FRONT);
+// 	//glFrontFace(GL_CW);
+// 	glDepthFunc(GL_LESS);
 
 }
 
@@ -144,5 +148,4 @@ void Window::Clear()
 	ClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 	//TODO this should be a command
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 }

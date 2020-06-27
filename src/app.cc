@@ -48,7 +48,7 @@ void App::Init()
     void main()
 		{
         
-       normal = aNormal * 0.5f + 0.5f;
+       normal = aNormal * 0.5 + 0.5;
 
            
        mat4 mvp = u_p_matrix * u_v_matrix * u_m_matrix;
