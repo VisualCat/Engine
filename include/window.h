@@ -135,7 +135,7 @@ namespace VC {
 			kVC_KEY_MENU = 348,
 		};
 		enum VC_MOUSE_KEY {
-			KVC_MOUSE_KEY_RIGTH = 0,
+			KVC_MOUSE_KEY_RIGHT = 0,
 			KVC_MOUSE_KEY_LEFT = 1
 		};
 		s8 Init();

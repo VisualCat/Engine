@@ -201,9 +201,6 @@ void App::draw()
 
   ImGuiDraw();
 
-	
-
-
 	window_.SwapBuffers();
 }
 

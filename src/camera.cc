@@ -51,7 +51,16 @@ void Camera::input(Window* window)
 		cameraPos += cameraRight * kcameraSpeed;
 	}
 
-	if (window->GetMousePressed(Window::KVC_MOUSE_KEY_RIGTH))
+  if (window->getKeyPressed(Window::kVC_KEY_SPACE))
+  {
+    cameraPos += WorldUp * kcameraSpeed;
+  }
+  if (window->getKeyPressed(Window::kVC_KEY_LEFT_SHIFT))
+  {
+    cameraPos -= WorldUp * kcameraSpeed;
+  }
+
+	if (window->GetMousePressed(Window::KVC_MOUSE_KEY_RIGHT))
 	{
 		if (firstMouse)
 		{
@@ -70,7 +79,7 @@ void Camera::input(Window* window)
 		yoffset *= sensitivity;
 
 		yaw += xoffset;
-		pitch += yoffset;
+		pitch -= yoffset;
 
 		if (pitch > 89.0f)
 			pitch = 89.0f;
