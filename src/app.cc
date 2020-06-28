@@ -163,8 +163,8 @@ void App::update()
 	camera_.update();
 	float timer = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_time).count()/1000.0f;
 
-  //wavemovementsys_->Update(timer);
-  //rendersys_->Update(&commands_, &camera_);
+  wavemovementsys_->Update(timer);
+  rendersys_->Update(&commands_, &camera_);
   
 }
 
@@ -206,6 +206,10 @@ void App::draw()
 	for each (RenderCommand* com in commands_)
 	{
 		com->Action();
+	}
+	for each (RenderCommand * com in commands_)
+	{
+		delete(com);
 	}
 	//commands_.erase(commands_.begin(), commands_.end());
   commands_.clear();

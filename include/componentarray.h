@@ -2,7 +2,7 @@
 
 #ifndef __COMPONENT_ARRAY__
 #define  __COMPONENT_ARRAY__ 1
-#define kMAX_ENTITIES 5000
+#define kMAX_ENTITIES 500000
 
 #include <array>
 #include <unordered_map>

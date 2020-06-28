@@ -23,6 +23,7 @@ void RenderSystem::Update(std::vector<RenderCommand*> *commands, Camera* camera)
 	{
 		Transform& trans = cordinator_->GetComponent<Transform>(entity);
 		Render& rend = cordinator_->GetComponent<Render>(entity);
+		
 		BufferCommand* bComand = new BufferCommand();
 		bComand->setGeometry(rend.geometry.ID);
 
@@ -51,5 +52,6 @@ void RenderSystem::Update(std::vector<RenderCommand*> *commands, Camera* camera)
 		commands->push_back(vpuCommand);
 
 		commands->push_back(dCommand);
+			
 	}
 }
