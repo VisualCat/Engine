@@ -24,11 +24,11 @@ namespace VC {
 		{
 		
 			// Put new entry at end
-			size_t newIndex = mSize;
-			mEntityToIndexMap[entity] = newIndex;
-			mIndexToEntityMap[newIndex] = entity;
-			mComponentArray[newIndex] = component;
-			++mSize;
+			size_t newIndex = size_;
+			entityToIndexMap_[entity] = newIndex;
+			indexToEntityMap_[newIndex] = entity;
+			componentArray_[newIndex] = component;
+			++size_;
 		}
 
 		void RemoveData(u32 entity)
@@ -36,41 +36,41 @@ namespace VC {
 		
 
 			// Copy element at end into deleted element's place to maintain density
-			size_t indexOfRemovedEntity = mEntityToIndexMap[entity];
-			size_t indexOfLastElement = mSize - 1;
-			mComponentArray[indexOfRemovedEntity] = mComponentArray[indexOfLastElement];
+			size_t indexOfRemovedEntity = entityToIndexMap_[entity];
+			size_t indexOfLastElement = size_ - 1;
+			componentArray_[indexOfRemovedEntity] = componentArray_[indexOfLastElement];
 
 			// Update map to point to moved spot
-			u32 entityOfLastElement = mIndexToEntityMap[indexOfLastElement];
-			mEntityToIndexMap[entityOfLastElement] = indexOfRemovedEntity;
-			mIndexToEntityMap[indexOfRemovedEntity] = entityOfLastElement;
+			u32 entityOfLastElement = indexToEntityMap_[indexOfLastElement];
+			entityToIndexMap_[entityOfLastElement] = indexOfRemovedEntity;
+			indexToEntityMap_[indexOfRemovedEntity] = entityOfLastElement;
 
-			mEntityToIndexMap.erase(entity);
-			mIndexToEntityMap.erase(indexOfLastElement);
+			entityToIndexMap_.erase(entity);
+			indexToEntityMap_.erase(indexOfLastElement);
 
-			--mSize;
+			--size_;
 		}
 
 		T& GetData(u32 entity)
 		{
 
 
-			return mComponentArray[mEntityToIndexMap[entity]];
+			return componentArray_[entityToIndexMap_[entity]];
 		}
 
 		void EntityDestroyed(u32 entity) override
 		{
-			if (mEntityToIndexMap.find(entity) != mEntityToIndexMap.end())
+			if (entityToIndexMap_.find(entity) != entityToIndexMap_.end())
 			{
 				RemoveData(entity);
 			}
 		}
 
 	private:
-		std::array<T, kMAX_ENTITIES> mComponentArray{};
-		std::unordered_map<u32, size_t> mEntityToIndexMap{};
-		std::unordered_map<size_t, u32> mIndexToEntityMap{};
-		size_t mSize{};
+		std::array<T, kMAX_ENTITIES> componentArray_{};
+		std::unordered_map<u32, size_t> entityToIndexMap_{};
+		std::unordered_map<size_t, u32> indexToEntityMap_{};
+		size_t size_{};
 	};
 
 

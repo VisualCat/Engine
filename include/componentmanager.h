@@ -20,10 +20,10 @@ namespace VC {
 
 			
 
-			mComponentTypes.insert({ typeName, mNextComponentType });
-			mComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() });
+			componentTypes_.insert({ typeName, nextComponentType_ });
+			componentArrays_.insert({ typeName, std::make_shared<ComponentArray<T>>() });
 
-			++mNextComponentType;
+			++nextComponentType_;
 		}
 
 		template<typename T>
@@ -33,7 +33,7 @@ namespace VC {
 
 		
 
-			return mComponentTypes[typeName];
+			return componentTypes_[typeName];
 		}
 
 		template<typename T>
@@ -56,7 +56,7 @@ namespace VC {
 
 		void EntityDestroyed(u32 entity)
 		{
-			for (auto const& pair : mComponentArrays)
+			for (auto const& pair : componentArrays_)
 			{
 				auto const& component = pair.second;
 
@@ -65,9 +65,9 @@ namespace VC {
 		}
 
 	private:
-		std::unordered_map<const char*, u8> mComponentTypes{};
-		std::unordered_map<const char*, std::shared_ptr<IComponentArray>> mComponentArrays{};
-		u8 mNextComponentType{};
+		std::unordered_map<const char*, u8> componentTypes_{};
+		std::unordered_map<const char*, std::shared_ptr<IComponentArray>> componentArrays_{};
+		u8 nextComponentType_{};
 
 
 		template<typename T>
@@ -76,7 +76,7 @@ namespace VC {
 			const char* typeName = typeid(T).name();
 
 
-			return std::static_pointer_cast<ComponentArray<T>>(mComponentArrays[typeName]);
+			return std::static_pointer_cast<ComponentArray<T>>(componentArrays_[typeName]);
 		}
 	};
 }

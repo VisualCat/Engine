@@ -163,8 +163,8 @@ void App::update()
 	camera_.update();
 	float timer = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_time).count()/1000.0f;
 
-  wavemovementsys_->Update(timer);
-  rendersys_->Update(&commands_, &camera_);
+  //wavemovementsys_->Update(timer);
+  //rendersys_->Update(&commands_, &camera_);
   
 }
 
