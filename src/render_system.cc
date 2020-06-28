@@ -24,15 +24,15 @@ void RenderSystem::Update(std::vector<RenderCommand*> *commands, Camera* camera)
 		Transform& trans = cordinator_->GetComponent<Transform>(entity);
 		Render& rend = cordinator_->GetComponent<Render>(entity);
 		BufferCommand* bComand = new BufferCommand();
-		bComand->setGeometry(rend.geo.ID);
+		bComand->setGeometry(rend.geometry.ID);
 
 
 		MaterialCommand* mComand = new MaterialCommand();
-		mComand->setMaterial(rend.mat.ID);
+		mComand->setMaterial(rend.material.ID);
 
 		DrawCommand* dCommand = new DrawCommand();
-		dCommand->setGeometry(rend.geo.ID);
-		dCommand->setMaterial(rend.mat.ID);
+		dCommand->setGeometry(rend.geometry.ID);
+		dCommand->setMaterial(rend.material.ID);
 
 		commands->push_back(bComand);
 		commands->push_back(mComand);
@@ -40,13 +40,13 @@ void RenderSystem::Update(std::vector<RenderCommand*> *commands, Camera* camera)
 		//Uniform condition
 		//model
 		ModelUniformCommand* muComand = new ModelUniformCommand();
-		muComand->setMaterial(rend.mat);
+		muComand->setMaterial(rend.material);
 		muComand->setTransform(trans);
 		commands->push_back(muComand);
 		//ViewProjection
 		ViewProjectionUniformCommand* vpuCommand = new ViewProjectionUniformCommand();
 		vpuCommand->setCamera(camera);
-		vpuCommand->setMaterial(rend.mat);
+		vpuCommand->setMaterial(rend.material);
 
 		commands->push_back(vpuCommand);
 

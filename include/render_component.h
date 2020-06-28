@@ -7,6 +7,6 @@ using namespace VC;
 
 struct Render
 {
-	Material mat;
-	Geometry geo;
+	Material material;
+	Geometry geometry;
 };

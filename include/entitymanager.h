@@ -16,7 +16,7 @@ namespace VC {
 		{
 			for (u32 entity = 0; entity < kMAX_ENTITIES; ++entity)
 			{
-				mAvailableEntities.push(entity);
+				avaliableEntities_.push(entity);
 			}
 		}
 
@@ -24,9 +24,9 @@ namespace VC {
 		{
 
 
-			u32 id = mAvailableEntities.front();
-			mAvailableEntities.pop();
-			++mLivingEntityCount;
+			u32 id = avaliableEntities_.front();
+			avaliableEntities_.pop();
+			++activeEntityCount_;
 
 			return id;
 		}
@@ -35,29 +35,29 @@ namespace VC {
 		{
 
 
-			mSignatures[entity].reset();
-			mAvailableEntities.push(entity);
-			--mLivingEntityCount;
+			signatures_[entity].reset();
+			avaliableEntities_.push(entity);
+			--activeEntityCount_;
 		}
 
 		void SetSignature(u32 entity, Signature signature)
 		{
 
 
-			mSignatures[entity] = signature;
+			signatures_[entity] = signature;
 		}
 
 		Signature GetSignature(u32 entity)
 		{
 
 
-			return mSignatures[entity];
+			return signatures_[entity];
 		}
 
 	private:
-		std::queue<u32> mAvailableEntities{};
-		std::array<Signature, kMAX_ENTITIES> mSignatures{};
-		uint32_t mLivingEntityCount{};
+		std::queue<u32> avaliableEntities_{};
+		std::array<Signature, kMAX_ENTITIES> signatures_{};
+		uint32_t activeEntityCount_{};
 	};
 }
 #endif

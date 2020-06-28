@@ -18,10 +18,10 @@ namespace VC{
 		{
 			const char* typeName = typeid(T).name();
 
-			assert(mSystems.find(typeName) == mSystems.end() && "Registering system more than once.");
+			assert(systems_.find(typeName) == systems_.end() && "Registering system more than once.");
 
 			auto system = std::make_shared<T>();
-			mSystems.insert({ typeName, system });
+			systems_.insert({ typeName, system });
 			return system;
 		}
 
@@ -30,14 +30,14 @@ namespace VC{
 		{
 			const char* typeName = typeid(T).name();
 
-			assert(mSystems.find(typeName) != mSystems.end() && "System used before registered.");
+			assert(systems_.find(typeName) != systems_.end() && "System used before registered.");
 
-			mSignatures.insert({ typeName, signature });
+			signatures_.insert({ typeName, signature });
 		}
 
 		void EntityDestroyed(u32 entity)
 		{
-			for (auto const& pair : mSystems)
+			for (auto const& pair : systems_)
 			{
 				auto const& system = pair.second;
 
@@ -48,11 +48,11 @@ namespace VC{
 
 		void EntitySignatureChanged(u32 entity, Signature entitySignature)
 		{
-			for (auto const& pair : mSystems)
+			for (auto const& pair : systems_)
 			{
 				auto const& type = pair.first;
 				auto const& system = pair.second;
-				auto const& systemSignature = mSignatures[type];
+				auto const& systemSignature = signatures_[type];
 
 				if ((entitySignature & systemSignature) == systemSignature)
 				{
@@ -66,8 +66,8 @@ namespace VC{
 		}
 
 	private:
-		std::unordered_map<const char*, Signature> mSignatures{};
-		std::unordered_map<const char*, std::shared_ptr<System>> mSystems{};
+		std::unordered_map<const char*, Signature> signatures_{};
+		std::unordered_map<const char*, std::shared_ptr<System>> systems_{};
 	};
 
 }
