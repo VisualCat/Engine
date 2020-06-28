@@ -144,6 +144,8 @@ void App::Init()
   Logger::addMessage("entities created");
 
 
+  imguiHandler_.Init(&cordinator_);
+
 }
 
 void App::Loop()
@@ -195,12 +197,18 @@ void App::ImGuiDraw() {
 	  ImGui::Text("CAMERA POSITION:\n x = %f\n y = %f\n z = %f\n", camera_.cameraPos.x, camera_.cameraPos.y, camera_.cameraPos.z);
 	  ImGui::Text("CAMERA FRONT:\n x = %f\n y = %f\n z = %f\n", camera_.cameraFront.x, camera_.cameraFront.y, camera_.cameraFront.z);
 	  ImGui::Text("CAMERA UP:\n x = %f\n y = %f\n z = %f\n", camera_.cameraUp.x, camera_.cameraUp.y, camera_.cameraUp.z);
-	  ImGui::Text("CAMERA RIGTH:\n x = %f\n y = %f\n z = %f\n", camera_.cameraRight.x, camera_.cameraRight.y, camera_.cameraRight.z);
+	  ImGui::Text("CAMERA RIGHT:\n x = %f\n y = %f\n z = %f\n", camera_.cameraRight.x, camera_.cameraRight.y, camera_.cameraRight.z);
 	  ImGui::Text("YAW = %f\n PITCH = %f\n ROLL = %f\n", camera_.yaw, camera_.pitch, camera_.roll);
 
 
     ImGui::End();
   }
+
+  imguiHandler_.HierarchyWindow(&entities_);
+
+  bool demo = true;
+
+  ImGui::ShowDemoWindow(&demo);
 
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -210,27 +218,16 @@ void App::ImGuiDraw() {
 void App::draw()
 {
 
-	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-
-	//window_.Clear();
-
-	//for each (Object * o in objectsInScene_)
-	//{
-	//	o->draw(&commands_, &camera_);
-	//}
 	
 	for each (RenderCommand* com in commands_)
 	{
 		com->Action();
+    delete(com);
 	}
-	for each (RenderCommand * com in commands_)
-	{
-		delete(com);
-	}
-	//commands_.erase(commands_.begin(), commands_.end());
+	
   commands_.clear();
 
   ImGuiDraw();

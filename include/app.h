@@ -3,11 +3,13 @@
 #define __VC_APP__ 1
 
 #include <window.h>
+#include <platform_types.h>
 
 #include <rendercommand.h>
 #include <buffer_rendercommand.h>
 #include <material_rendercommand.h>
 #include <draw_rendercommand.h>
+#include <imgui_handler.h>
 
 #include <object.h>
 #include <cordinator.h>
@@ -16,6 +18,7 @@
 #include <wavemovement_system.h>
 #include <camera.h>
 #include <chrono>
+#include <string>
 
 namespace VC {
 
@@ -32,6 +35,7 @@ namespace VC {
     void ImGuiDraw();
 
 		Window window_;
+    ImGuiHandler imguiHandler_;
 		std::vector<RenderCommand*> commands_;
 		std::vector<Object*> objectsInScene_;
 		std::vector<u32> entities_;
