@@ -21,8 +21,11 @@
 #include <material.h>
 #include <clearwindow_rendercommand.h>
 #include <transform_component.h>
+#include <parent_component.h>
 #include <render_component.h>
 #include <render_system.h>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 using namespace VC;
 
@@ -48,6 +51,7 @@ void App::Init()
 
 	cordinator_.RegisterComponent<Transform>();
 	cordinator_.RegisterComponent<Render>();
+	cordinator_.RegisterComponent<Parent>();
 
 	Logger::addMessage("components registered");
 
@@ -68,6 +72,15 @@ void App::Init()
     cordinator_.SetSystemSignature<WaveMovementSystem>(signature);
   }
   wavemovementsys_->Init(&cordinator_);
+
+  transformsys_ = cordinator_.RegisterSystem<TransformSystem>();
+  {
+	  Signature signature;
+	  signature.set(cordinator_.GetComponentType<Transform>());
+	  signature.set(cordinator_.GetComponentType<Parent>());
+	  cordinator_.SetSystemSignature<TransformSystem>(signature);
+  }
+  transformsys_->Init(&cordinator_);
 
   Logger::addMessage("systems registered");
 
@@ -120,7 +133,7 @@ void App::Init()
   //triangle->setGeometry(triangleGeo);
   //triangle->setMaterial(triangleMat);
   //objectsInScene_.push_back(triangle);
-
+  /*
   for (s32 i = -5; i < 5; i++)
   {
 	  for (s32 j = -5; j < 5; j++)
@@ -141,6 +154,57 @@ void App::Init()
 		  entities_.push_back(entity);
 	  }
   }
+  */
+  Transform aux = {
+			   glm::mat4(1.0f)
+  };
+  Render auxRender = {
+	  triangleMat,
+	  triangleGeo
+  };
+
+  aux.transform = glm::rotate(aux.transform, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+  u32 entity = cordinator_.CreateEntity();
+  cordinator_.AddComponent<Transform>(entity, aux);
+  cordinator_.AddComponent<Render>(entity, auxRender);
+  entities_.push_back(entity);
+
+
+  Transform aux1 = {
+			 glm::mat4(1.0f)
+  };
+  aux1.transform = glm::translate(aux1.transform, glm::vec3(2.0f, 0.0f, 0.0f));
+  aux1.transform = glm::scale(aux1.transform, glm::vec3(0.5f));
+  u32 entity1 = cordinator_.CreateEntity();
+  cordinator_.AddComponent<Transform>(entity1, aux1);
+  cordinator_.AddComponent<Render>(entity1, auxRender);
+  cordinator_.AddComponent<Parent>(entity1, Parent{entity,aux1});
+  entities_.push_back(entity1);
+
+
+  Transform aux2 = {
+		   glm::mat4(1.0f)
+  };
+  aux2.transform = glm::translate(aux2.transform, glm::vec3(-2.0f, 0.0f, 0.0f));
+  aux2.transform = glm::scale(aux2.transform, glm::vec3(2.0f));
+  u32 entity2 = cordinator_.CreateEntity();
+  cordinator_.AddComponent<Transform>(entity2, aux2);
+  cordinator_.AddComponent<Render>(entity2, auxRender);
+  cordinator_.AddComponent<Parent>(entity2, Parent{ entity, aux2});
+  entities_.push_back(entity2);
+
+
+  Transform aux3 = {
+		   glm::mat4(1.0f)
+  };
+  aux3.transform = glm::translate(aux3.transform, glm::vec3(0.0f, 2.0f, 0.0f));
+  aux3.transform = glm::scale(aux3.transform, glm::vec3(1.0f));
+  u32 entity3 = cordinator_.CreateEntity();
+  cordinator_.AddComponent<Transform>(entity3, aux3);
+  cordinator_.AddComponent<Render>(entity3, auxRender);
+  cordinator_.AddComponent<Parent>(entity3, Parent{ entity1, aux3 });
+  entities_.push_back(entity3);
+
   Logger::addMessage("entities created");
 
 
@@ -170,6 +234,12 @@ void App::input()
 	window_.PollEvents();
 	window_.GetMousePosition();
   camera_.input(&window_);
+  if (window_.getKeyPressed(Window::kVC_KEY_H))
+  {
+	  Transform& mov = cordinator_.GetComponent<Transform>(entities_[0]);
+	  mov.transform = glm::translate(mov.transform,
+			  glm::vec3(0.0f,0.0f,0.1f));
+  }
 }
 
 void App::update()
@@ -181,9 +251,10 @@ void App::update()
 	camera_.update();
 	float timer = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_time).count()/1000.0f;
 
-  wavemovementsys_->Update(timer);
+  //wavemovementsys_->Update(timer);
   //Logger::addMessage("wave movement system updated");
   rendersys_->Update(&commands_, &camera_);
+  transformsys_->Update();
   //Logger::addMessage("render system updated");
 
   Logger::flush();

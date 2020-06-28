@@ -20,6 +20,7 @@ void ModelUniformCommand::Action()
 {
 	
 	u32 uniform_position = glGetUniformLocation(material_.getMaterialID(), "u_m_matrix");
+/*
 	glm::mat4 model(
 		glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
 		glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
@@ -27,9 +28,9 @@ void ModelUniformCommand::Action()
 		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 	model = glm::translate(model, trans_.position);
-	//model = glm::rotate(model,trans_.rotationFactor,trans_.rotation);
-	model = glm::scale(model, trans_.scale);
-	glUniformMatrix4fv(uniform_position, 1, GL_FALSE, (const GLfloat*)&model);
+	model = glm::rotate(model, glm::radians(trans_.rotationFactor),trans_.rotation);
+	model = glm::scale(model, trans_.scale);*/
+	glUniformMatrix4fv(uniform_position, 1, GL_FALSE, (const GLfloat*)&trans_.transform);
 	GLenum error = glGetError();
 	if (error != 0) printf("An error occurred, model render command\n");
 

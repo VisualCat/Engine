@@ -16,6 +16,7 @@
 #include <vector>
 #include <render_system.h>
 #include <wavemovement_system.h>
+#include <transform_system.h>
 #include <camera.h>
 #include <chrono>
 #include <string>
@@ -43,6 +44,7 @@ namespace VC {
 		Coordinator cordinator_;
 		std::shared_ptr<RenderSystem> rendersys_;
 		std::shared_ptr<WaveMovementSystem> wavemovementsys_;
+		std::shared_ptr<TransformSystem> transformsys_;
 		std::chrono::time_point<std::chrono::system_clock> start_time;
 	};
 

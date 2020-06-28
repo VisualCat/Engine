@@ -20,7 +20,7 @@ void WaveMovementSystem::Update(float time)
   {
 
     Transform& trans = cordinator_->GetComponent<Transform>(entity);
-    trans.position.y += sinf(time + abs(trans.position.x)) * 0.05f;
+    //trans.position.y += sinf(time + abs(trans.position.x)) * 0.05f;
     /*
     if (counter_ < 30)
     {
