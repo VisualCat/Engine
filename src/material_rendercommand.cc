@@ -1,5 +1,6 @@
 #include <material_rendercommand.h>
 #include <GLEW/GL/glew.h>
+#include <logger.h>
 
 using namespace VC;
 
@@ -27,42 +28,47 @@ void MaterialCommand::Action()
 		glCompileShader(vertexShader);
 		if (!isShaderCompiled(vertexShader))
 		{
-			printf("[ERROR] : Vertex Shader did not compile\n");
+			Logger::addMessage("[ERROR] : Vertex Shader did not compile");
+
 		}
 		else {
-			printf("[BRO] : Vertex Shader compiled\n");
+			Logger::addMessage("Vertex Shader compiled");
 		}
 		GLenum error = glGetError();
-		if (error != 0) printf("An error occurred, vertex shader\n");
+		if (error != 0) printf("[ERROR] :  vertex shader\n");
 		u32 fragmentShader;
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
 		glCompileShader(fragmentShader);
 		if (!isShaderCompiled(fragmentShader))
 		{
-			printf("[ERROR] : Fragment Shader did not compile\n");
+			
+			Logger::addMessage("[ERROR] : Fragment Shader did not compile");
+
 		}
 		else {
-			printf("[BRO] : Fragment Shader compiled\n");
+			Logger::addMessage("Fragment Shader compiled");
+			//printf("[BRO] : Fragment Shader compiled\n");
 		}
 		 error = glGetError();
-		if (error != 0) printf("An error occurred, fragment shader\n");
+		
+		 if (error != 0)  Logger::addMessage("[ERROR] :  fragment shader");
 		u32 shaderProgram;
 		shaderProgram = glCreateProgram();
 		material.setMaterialID(shaderProgram);
 		glAttachShader(shaderProgram, vertexShader);
 		 error = glGetError();
-		if (error != 0) printf("An error occurred, attach vertex shader\n");
+		if (error != 0) Logger::addMessage("[ERROR] :  attach vertex shader");
 		glAttachShader(shaderProgram, fragmentShader);
 		 error = glGetError();
-		if (error != 0) printf("An error occurred, attach fragment shader\n");
+		if (error != 0) Logger::addMessage("[ERROR] :  attach fragment shader");
 		glLinkProgram(shaderProgram);
 		 error = glGetError();
-		if (error != 0) printf("An error occurred, link shader\n");
+		if (error != 0) Logger::addMessage("[ERROR] :  link shader");
 		
 	}
 	GLenum error = glGetError();
-	if (error != 0) printf("An error occurred, material render command\n");
+	if (error != 0) Logger::addMessage("[ERROR] :  material render command");
 	glUseProgram(material.getMaterialID());
 
 }
@@ -82,7 +88,7 @@ bool VC::MaterialCommand::isProgramLinked(u32 programID)
 
   glGetProgramiv(programID, GL_LINK_STATUS, &param);
   GLenum error = glGetError();
-  if (error != 0) printf("An error occurred, check link command\n");
+  if (error != 0) Logger::addMessage("[ERROR] :  check link command");
   return param;
 }
 

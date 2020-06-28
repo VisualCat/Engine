@@ -7,12 +7,15 @@
 
 
 
+
 #include <app.h>
 
 #include <GLEW/GL/glew.h>
 #include <IMGUI/imgui_impl_glfw.h>
 #include <IMGUI/imgui_impl_opengl3.h>
 
+
+#include <logger.h>
 
 #include <geometry.h>
 #include <material.h>
@@ -27,17 +30,27 @@ void App::Init()
 {
 	start_time = std::chrono::system_clock::now();
 	Geometry::Inicialize(kmaxBuffers);
+	Logger::addMessage("geometries initialized");
 	Material::Inicialize(kmaxMaterials);
+	Logger::addMessage("materials initialized");
 
 	window_.Init();
+	Logger::addMessage("window initialized");
+
 	window_.CreateWindow(kWindowWidth, kWindowHeight, "Main Window");
 
 	window_.MakeCurrentContext();
 	camera_.init();
+	Logger::addMessage("camera initialized");
 
 	cordinator_.Init();
+	Logger::addMessage("coordinator initialized");
+
 	cordinator_.RegisterComponent<Transform>();
 	cordinator_.RegisterComponent<Render>();
+
+	Logger::addMessage("components registered");
+
 
 	rendersys_ = cordinator_.RegisterSystem<RenderSystem>();
 	{
@@ -55,6 +68,8 @@ void App::Init()
     cordinator_.SetSystemSignature<WaveMovementSystem>(signature);
   }
   wavemovementsys_->Init(&cordinator_);
+
+  Logger::addMessage("systems registered");
 
 	const char* vertexShaderSource = R"(
 		#version 330 core
@@ -126,7 +141,8 @@ void App::Init()
 		  entities_.push_back(entity);
 	  }
   }
-	 
+  Logger::addMessage("entities created");
+
 
 }
 
@@ -164,8 +180,11 @@ void App::update()
 	float timer = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_time).count()/1000.0f;
 
   wavemovementsys_->Update(timer);
+  //Logger::addMessage("wave movement system updated");
   rendersys_->Update(&commands_, &camera_);
-  
+  //Logger::addMessage("render system updated");
+
+  Logger::flush();
 }
 
 void App::ImGuiDraw() {

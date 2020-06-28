@@ -1,6 +1,7 @@
 
 #include <buffer_rendercommand.h>
 #include <GLEW/GL/glew.h>
+#include <logger.h>
 
 using namespace VC;
 
@@ -29,27 +30,27 @@ void BufferCommand::Action()
 		geometry_.setVerticesBufferID(geometry_ID);
 		glBindBuffer(GL_ARRAY_BUFFER, geometry_.getVerticesBufferID());
     
-    unsigned int totalSize = posSize + normSize + uvSize;
-    glBufferData(GL_ARRAY_BUFFER, totalSize, nullptr, GL_STATIC_DRAW);
+        unsigned int totalSize = posSize + normSize + uvSize;
+        glBufferData(GL_ARRAY_BUFFER, totalSize, nullptr, GL_STATIC_DRAW);
 
    
 
-    unsigned int myOffset = 0;
-    glBufferSubData(GL_ARRAY_BUFFER, myOffset, posSize, geometry_.getVertex());
-    myOffset += posSize;
-    glBufferSubData(GL_ARRAY_BUFFER, myOffset, normSize, geometry_.getNormals());
-    myOffset += normSize;
-    //glBufferSubData(GL_ARRAY_BUFFER, myOffset, uvSize, geometry_.getUVs());
-    //myOffset += uvSize;
+        unsigned int myOffset = 0;
+        glBufferSubData(GL_ARRAY_BUFFER, myOffset, posSize, geometry_.getVertex());
+        myOffset += posSize;
+        glBufferSubData(GL_ARRAY_BUFFER, myOffset, normSize, geometry_.getNormals());
+        myOffset += normSize;
+        //glBufferSubData(GL_ARRAY_BUFFER, myOffset, uvSize, geometry_.getUVs());
+        //myOffset += uvSize;
 
-    GLuint elements_ID;
-    glGenBuffers(1, &elements_ID);
-    geometry_.setElementsBufferID(elements_ID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, geometry_.getElementsBufferID());
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, geometry_.getNumElements() * sizeof(unsigned int), geometry_.getElements(), GL_STATIC_DRAW);
-
+        GLuint elements_ID;
+        glGenBuffers(1, &elements_ID);
+        geometry_.setElementsBufferID(elements_ID);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, geometry_.getElementsBufferID());
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, geometry_.getNumElements() * sizeof(unsigned int), geometry_.getElements(), GL_STATIC_DRAW);
+        Logger::addMessage("Buffer created");
 		GLenum error = glGetError();
-		if (error != 0) printf("An error occurred, buffer render command\n");
+		if (error != 0) Logger::addMessage("[ERROR] : buffer render command");
     }
 
 
