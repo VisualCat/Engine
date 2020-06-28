@@ -59,9 +59,15 @@ void ImGuiHandler::InspectorWindow()
 
     if (isAnyEntitySelected_)
     {
+      bool transform = true;
+      ImGui::SetNextWindowSize(ImVec2(300.0f, 100.0f));
+      if (ImGui::BeginChild("Transform"))
+      {
 
+        ImGui::Text("MAAAAAAAAAAAAAN\n");
 
-
+        ImGui::EndChild();
+      }
 
     }
 

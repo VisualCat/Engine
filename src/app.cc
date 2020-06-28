@@ -276,6 +276,7 @@ void App::ImGuiDraw() {
   }
 
   imguiHandler_.HierarchyWindow(&entities_);
+  imguiHandler_.InspectorWindow();
 
   bool demo = true;
 

@@ -3,7 +3,7 @@
 #ifndef __ENTITY_MANAGER__
 #define  __ENTITY_MANAGER__ 1
 
-#define kMAX_ENTITIES 500000
+#define kMAX_ENTITIES 5000
 
 #include <array>
 #include <queue>
