@@ -59,14 +59,22 @@ void ImGuiHandler::InspectorWindow()
 
     if (isAnyEntitySelected_)
     {
+
+
+
       bool transform = true;
-      ImGui::SetNextWindowSize(ImVec2(300.0f, 100.0f));
-      if (ImGui::BeginChild("Transform"))
+      if (ImGui::CollapsingHeader("Transform", &transform))
       {
+        Transform& trans = cordinator_->GetComponent<Transform>(selectedEntity_);
 
-        ImGui::Text("MAAAAAAAAAAAAAN\n");
+        glm::mat4 transformMatrix = trans.transform;
 
-        ImGui::EndChild();
+        float x = transformMatrix[0].x;
+
+        ImGui::InputFloat("X", &x, 0.1f, 1.0f, 2);
+
+        transformMatrix[0].x = x;
+
       }
 
     }
