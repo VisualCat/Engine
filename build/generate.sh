@@ -1,0 +1,1 @@
+../bin/genie --cc=gcc --file=genie_linux.lua gmake --os=linux
