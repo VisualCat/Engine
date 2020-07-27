@@ -1,5 +1,6 @@
 
 #include <imgui_handler.h>
+#include <glm/gtx/matrix_decompose.hpp>
 
 using namespace VC;
 
@@ -69,11 +70,36 @@ void ImGuiHandler::InspectorWindow()
 
         glm::mat4 transformMatrix = trans.transform;
 
-        float x = transformMatrix[0].x;
+        glm::vec3 scale;
+        glm::quat rotation;
+        glm::vec3 translation;
+        glm::vec3 skew;
+        glm::vec4 perspective;
+        glm::decompose(transformMatrix, scale, rotation, translation, skew, perspective);
+        rotation = glm::conjugate(rotation);
 
-        ImGui::InputFloat("X", &x, 0.1f, 1.0f, 2);
+        glm::vec3 rotationInDegrees = glm::eulerAngles(rotation);
+        rotationInDegrees *= 180.0f;
+        rotationInDegrees /= 3.1416f;
 
-        transformMatrix[0].x = x;
+        float pos[3] = { translation.x, translation.y, translation.z };
+        float rot[3] = { rotationInDegrees.x, rotationInDegrees.y, rotationInDegrees.z };
+        float sc[3] = { scale.x, scale.y, scale.z };
+
+        ImGui::InputFloat3("Position", pos, 2);
+        ImGui::InputFloat3("Rotation", rot, 0);
+        ImGui::InputFloat3("Scale", sc, 2);
+
+        translation = glm::vec3(pos[0], pos[1], pos[2]);
+        scale = glm::vec3(sc[0], sc[1], sc[2]);
+
+
+        transformMatrix = glm::mat4(1.0f);
+        transformMatrix = glm::translate(transformMatrix, translation);
+        transformMatrix = glm::rotate(transformMatrix, 1.0f, glm::vec3(rot[0], rot[1], rot[2]));
+
+        trans.transform = glm::scale(transformMatrix, scale);
+
 
       }
 
