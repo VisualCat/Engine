@@ -253,8 +253,8 @@ void App::update()
 
   //wavemovementsys_->Update(timer);
   //Logger::addMessage("wave movement system updated");
-  rendersys_->Update(&commands_, &camera_);
   transformsys_->Update();
+  rendersys_->Update(&commands_, &camera_);
   //Logger::addMessage("render system updated");
 
   Logger::flush();
