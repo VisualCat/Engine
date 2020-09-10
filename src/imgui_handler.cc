@@ -62,9 +62,13 @@ void ImGuiHandler::InspectorWindow()
     if (isAnyEntitySelected_)
     {
 
-
-
       bool transform = true;
+
+      for (u8 i = 0; i < cordinator_->NumOfExistingComponents(); i++)
+      {
+
+      }
+
       if (ImGui::CollapsingHeader("Transform", &transform))
       {
         Transform& trans = cordinator_->GetComponent<Transform>(selectedEntity_);

@@ -32,9 +32,6 @@ void BufferCommand::Action()
     
         unsigned int totalSize = posSize + normSize + uvSize;
         glBufferData(GL_ARRAY_BUFFER, totalSize, nullptr, GL_STATIC_DRAW);
-
-   
-
         unsigned int myOffset = 0;
         glBufferSubData(GL_ARRAY_BUFFER, myOffset, posSize, geometry_.getVertex());
         myOffset += posSize;

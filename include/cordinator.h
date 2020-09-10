@@ -95,7 +95,9 @@ public:
 		systemManager_->SetSignature<T>(signature);
 	}
 
-
+	u8 NumOfExistingComponents(){
+		return componentManager_->NumOfExistingComponents();
+	}
 
 
 private:

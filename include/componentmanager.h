@@ -18,8 +18,6 @@ namespace VC {
 		{
 			const char* typeName = typeid(T).name();
 
-			
-
 			componentTypes_.insert({ typeName, nextComponentType_ });
 			componentArrays_.insert({ typeName, std::make_shared<ComponentArray<T>>() });
 
@@ -30,8 +28,6 @@ namespace VC {
 		u8 GetComponentType()
 		{
 			const char* typeName = typeid(T).name();
-
-		
 
 			return componentTypes_[typeName];
 		}
@@ -62,6 +58,10 @@ namespace VC {
 
 				component->EntityDestroyed(entity);
 			}
+		}
+
+		u8 NumOfExistingComponents() {
+			return nextComponentType_;
 		}
 
 	private:

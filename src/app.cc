@@ -18,6 +18,7 @@
 #include <logger.h>
 
 #include <geometry.h>
+#include <shader.h>
 #include <material.h>
 #include <clearwindow_rendercommand.h>
 #include <transform_component.h>
@@ -84,6 +85,11 @@ void App::Init()
 
   Logger::addMessage("systems registered");
 
+	/*Shader vertexShader;
+	Shader fragmentShader;
+	vertexShader.LoadSource("path");
+	fragmentShader.LoadSource("path");*/
+
 	const char* vertexShaderSource = R"(
 		#version 330 core
 
@@ -124,7 +130,9 @@ void App::Init()
 	Material triangleMat{ 1 };
 	Geometry triangleGeo{ 1 };
 	
-  triangleGeo.CreatePrism();
+	if (!triangleGeo.LoadOBJ("../bin/SM_Road_00.obj", false)) {
+		Logger::addMessage("Did not load obj properly");
+	}
 
   triangleMat.setVertexShader(vertexShaderSource);
   triangleMat.setFragmentShader(fragmentShaderSource);

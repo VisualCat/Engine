@@ -12,6 +12,8 @@ namespace VC {
 
 		static void Inicialize(u32 max_geometries);
 
+    bool LoadOBJ(const char* filepath, bool loadTangents);
+
     //Dimensions modifiers go from 0.0f to 1.0f
     void CreatePrism(bool withUVs = false, float width = 1.0f, float height = 1.0f, float depth = 1.0f,
       float pivotOffsetX = 0.0f, float pivotOffsetY = 0.0f, float pivotOffsetZ = 0.0f);
@@ -30,6 +32,11 @@ namespace VC {
     float* getUVs();
     u32 getNumUVs();
     u32 getUVsSizeInBytes();
+
+    void setTangents(float* tangents, u32 num_tangents);
+    float* getTangents();
+    u32 getNumTangents();
+    u32 getTangentsSizeInBytes();
 
 		void setElements(u32* elements, u32 num_elements);
 		u32* getElements();

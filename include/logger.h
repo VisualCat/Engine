@@ -15,7 +15,7 @@ namespace VC {
 		Logger();
 		~Logger();
 
-		static void addMessage(std::string mesage);
+		static void addMessage(std::string message);
 		static void flush();
 
 	};

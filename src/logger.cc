@@ -16,9 +16,9 @@ Logger::~Logger()
 {
 }
 
-void Logger::addMessage(std::string mesage)
+void Logger::addMessage(std::string message)
 {
-	LogData.log.push_back(mesage);
+	LogData.log.push_back(message);
 }
 
 void Logger::flush()
