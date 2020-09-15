@@ -21,11 +21,16 @@ namespace VC {
 
     void InspectorWindow();
 
+    void RenderWindow();
+
   private:
+
+    void InitWindowInfo(ImVec2 windowPos, ImVec2 windowSize);
 
     Coordinator *cordinator_;
     u32 selectedEntity_ = 0;
     bool isAnyEntitySelected_ = false;
+    u16 flags_ = 0;
 
   };
 

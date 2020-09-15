@@ -1,4 +1,6 @@
 
+#include <constraints.h>
+
 #include <imgui_handler.h>
 #include <glm/gtx/matrix_decompose.hpp>
 #include <parent_component.h>
@@ -10,10 +12,21 @@ void ImGuiHandler::Init(Coordinator *cordinator)
   cordinator_ = cordinator;
 }
 
+void ImGuiHandler::InitWindowInfo(ImVec2 windowPos, ImVec2 windowSize) {
+  ImGui::SetNextWindowPos(windowPos);
+  ImGui::SetNextWindowSize(windowSize);
+  ImGui::SetNextWindowBgAlpha(1.0f);
+  flags_ = (ImGuiWindowFlags_::ImGuiWindowFlags_NoResize || ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar);
+}
+
 void ImGuiHandler::HierarchyWindow(std::vector<u32> *entities)
 {
-  if (ImGui::Begin("Hierarchy"))
+  InitWindowInfo(ImVec2(0.0f, 0.0f), ImVec2(kWindowWidth * 1.5f / 8.0f, kWindowHeight * 3.0f / 4.0f));
+  
+  if (ImGui::Begin("Hierarchy", nullptr, flags_))
   {
+    ImGui::Text("Hierarchy");
+    ImGui::Separator();
     if (ImGui::TreeNode("Entities List"))
     {
 
@@ -56,18 +69,17 @@ void ImGuiHandler::HierarchyWindow(std::vector<u32> *entities)
 void ImGuiHandler::InspectorWindow()
 {
 
-  if (ImGui::Begin("Inspector"))
-  {
+  InitWindowInfo(ImVec2(kWindowWidth * 6.5f / 8.0f, 0.0f),
+    ImVec2(kWindowWidth * 1.5f / 8.0f, kWindowHeight * 3.0f / 4.0f));
 
+  if (ImGui::Begin("Inspector", nullptr, flags_))
+  { 
+    ImGui::Text("Inspector");
+    ImGui::Separator();
     if (isAnyEntitySelected_)
     {
 
       bool transform = true;
-
-      for (u8 i = 0; i < cordinator_->NumOfExistingComponents(); i++)
-      {
-
-      }
 
       if (ImGui::CollapsingHeader("Transform", &transform))
       {
@@ -140,16 +152,15 @@ void ImGuiHandler::InspectorWindow()
 
             parent.relative_transform.transform = glm::scale(transformMatrix, scale);
         }
-
-        
-
-
       }
-
     }
-
-
     ImGui::End();
-
   }
 }
+
+void RenderWindow() {
+
+    
+
+}
+

@@ -5,6 +5,7 @@
 #include <string>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include <logger.h>
 
 using namespace VC;
 using namespace glm;
@@ -56,7 +57,7 @@ bool Geometry::LoadOBJ(const char* filepath, bool loadTangents)
 
   FILE* file = fopen(filepath, "r");
   if (file == NULL) {
-    printf("Impossible to open the file !\n");
+    Logger::addMessage("Could not load OBJ. File not found or corrupt.");
     return false;
   }
 
@@ -192,7 +193,7 @@ bool Geometry::LoadOBJ(const char* filepath, bool loadTangents)
   float* positions = (float*)malloc(positionsNumOfFloats * sizeof(float));
   float* normals = (float*)malloc(normalsNumOfFloats * sizeof(float));
   float* UVs = (float*)malloc(uvNumOfFloats * sizeof(float));
-  unsigned int* indices = (unsigned int*)malloc(indicesNumOfFloats * sizeof(unsigned int));
+  u32* indices = (u32*)malloc(indicesNumOfFloats * sizeof(u32));
 
   for (unsigned int i = 0; i < outPosition.size(); ++i)
   {
@@ -224,6 +225,7 @@ bool Geometry::LoadOBJ(const char* filepath, bool loadTangents)
   setVertex(positions, outPosition.size());
   setNormals(normals, outNormal.size());
   setUVs(UVs, outUV.size());
+  setElements(indices, indicesNumOfFloats);
  
   return true;
 }

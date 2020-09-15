@@ -1,19 +1,11 @@
 
-#define kWindowWidth 1280
-#define kWindowHeight 720
-
-#define kmaxBuffers 200000
-#define kmaxMaterials 200000
-
-
-
-
 #include <app.h>
 
 #include <GLEW/GL/glew.h>
 #include <IMGUI/imgui_impl_glfw.h>
 #include <IMGUI/imgui_impl_opengl3.h>
 
+#include <constraints.h>
 
 #include <logger.h>
 
@@ -33,9 +25,9 @@ using namespace VC;
 void App::Init()
 {
 	start_time = std::chrono::system_clock::now();
-	Geometry::Inicialize(kmaxBuffers);
+	Geometry::Inicialize(kMaxBuffers);
 	Logger::addMessage("geometries initialized");
-	Material::Inicialize(kmaxMaterials);
+	Material::Inicialize(kMaxMaterials);
 	Logger::addMessage("materials initialized");
 
 	window_.Init();
@@ -129,10 +121,13 @@ void App::Init()
 
 	Material triangleMat{ 1 };
 	Geometry triangleGeo{ 1 };
+	Geometry roadGeo{ 2 };
 	
-	if (!triangleGeo.LoadOBJ("../bin/SM_Road_00.obj", false)) {
+	if (!roadGeo.LoadOBJ("../bin/SM_Road_00.obj", false)) {
 		Logger::addMessage("Did not load obj properly");
 	}
+
+	triangleGeo.CreatePrism();
 
   triangleMat.setVertexShader(vertexShaderSource);
   triangleMat.setFragmentShader(fragmentShaderSource);
@@ -166,15 +161,19 @@ void App::Init()
   Transform aux = {
 			   glm::mat4(1.0f)
   };
-  Render auxRender = {
+  Render auxRender2 = {
 	  triangleMat,
-	  triangleGeo
+	  roadGeo
   };
+	Render auxRender = {
+		triangleMat,
+		triangleGeo
+	};
 
-  aux.transform = glm::rotate(aux.transform, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+  //aux.transform = glm::rotate(aux.transform, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
   u32 entity = cordinator_.CreateEntity();
   cordinator_.AddComponent<Transform>(entity, aux);
-  cordinator_.AddComponent<Render>(entity, auxRender);
+  cordinator_.AddComponent<Render>(entity, auxRender2);
   entities_.push_back(entity);
 
 
