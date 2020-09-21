@@ -5,6 +5,7 @@
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/euler_angles.hpp>
 #include <parent_component.h>
+#include <render_component.h>
 
 using namespace VC;
 
@@ -79,8 +80,13 @@ void ImGuiHandler::InspectorWindow()
     ImGui::Separator();
     if (isAnyEntitySelected_)
     {
+        bool transform = cordinator_->HasComponent<Transform>(selectedEntity_);
+        bool parent = cordinator_->HasComponent<Parent>(selectedEntity_);
+        bool render = cordinator_->HasComponent<Render>(selectedEntity_);
+        
+        
 
-      bool transform = true;
+        
 
       if (ImGui::CollapsingHeader("Transform", &transform))
       {

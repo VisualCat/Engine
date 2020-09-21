@@ -50,6 +50,14 @@ namespace VC {
 			return GetComponentArray<T>()->GetData(entity);
 		}
 
+		template<typename T>
+		bool HasComponent(u32 entity)
+		{
+
+			auto componentArray = GetComponentArray<T>();
+			return componentArray->Exist(entity);;
+		}
+
 		void EntityDestroyed(u32 entity)
 		{
 			for (auto const& pair : componentArrays_)

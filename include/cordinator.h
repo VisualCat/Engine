@@ -76,6 +76,12 @@ public:
 	}
 
 	template<typename T>
+	bool HasComponent(u32 entity)
+	{
+		return componentManager_->HasComponent<T>(entity);
+	}
+
+	template<typename T>
 	u8 GetComponentType()
 	{
 		return componentManager_->GetComponentType<T>();

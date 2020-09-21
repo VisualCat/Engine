@@ -66,6 +66,10 @@ namespace VC {
 			}
 		}
 
+		bool Exist(u32 entity) {
+			return entityToIndexMap_.find(entity) != entityToIndexMap_.end();
+		}
+
 	private:
 		std::array<T, kMAX_ENTITIES> componentArray_{};
 		std::unordered_map<u32, size_t> entityToIndexMap_{};
