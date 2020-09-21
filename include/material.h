@@ -12,11 +12,16 @@ namespace VC {
 
 		static void Inicialize(u32 max_materials);
 
-		void setVertexShader(std::string src);
-		void setFragmentShader(std::string src);
+		void setVertexShaderSource(std::string src);
+		void setVertexShaderSource(const char* src);
+
+		void setFragmentShaderSource(std::string src);
+		void setFragmentShaderSource(const char* src);
+
+		void LoadShadersFromFile(const char* vertexShaderPath, const char* fragmentShaderPath);
 		
-		const char* getVertexShader();
-		const char* getFragmentShader();
+		const char* getVertexShaderSource();
+		const char* getFragmentShaderSource();
 
 
 		u32 getMaterialID();
@@ -24,6 +29,10 @@ namespace VC {
 
 
 		u32 ID;
+
+	private:
+		char* SourceFromFile(const char* path);
+
 	};
 
 }

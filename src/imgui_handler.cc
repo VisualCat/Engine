@@ -3,6 +3,7 @@
 
 #include <imgui_handler.h>
 #include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/euler_angles.hpp>
 #include <parent_component.h>
 
 using namespace VC;
@@ -90,68 +91,54 @@ void ImGuiHandler::InspectorWindow()
         glm::mat4 transformMatrix;
 
         glm::vec3 scale;
-        glm::quat rotation;
         glm::vec3 translation;
+        glm::quat rotation;
         glm::vec3 skew;
         glm::vec4 perspective;
 
         if (parent.parent_entity == selectedEntity_)
         {
             transformMatrix = trans.transform;
-
-            glm::decompose(transformMatrix, scale, rotation, translation, skew, perspective);
-            rotation = glm::conjugate(rotation);
-
-            glm::vec3 rotationInDegrees = glm::eulerAngles(rotation);
-            rotationInDegrees *= 180.0f;
-            rotationInDegrees /= 3.1416f;
-
-            float pos[3] = { translation.x, translation.y, translation.z };
-            float rot[3] = { rotationInDegrees.x, rotationInDegrees.y, rotationInDegrees.z };
-            float sc[3] = { scale.x, scale.y, scale.z };
-
-            ImGui::InputFloat3("Position", pos, 2);
-            ImGui::InputFloat3("Rotation", rot, 0);
-            ImGui::InputFloat3("Scale", sc, 2);
-
-            translation = glm::vec3(pos[0], pos[1], pos[2]);
-            scale = glm::vec3(sc[0], sc[1], sc[2]);
-
-
-            transformMatrix = glm::mat4(1.0f);
-            transformMatrix = glm::translate(transformMatrix, translation);
-            transformMatrix = glm::rotate(transformMatrix, glm::radians(180.0f), glm::vec3(rot[0], rot[1], rot[2]));
-
-            trans.transform = glm::scale(transformMatrix, scale);
         }
         else {
             transformMatrix = parent.relative_transform.transform;
-
-            glm::decompose(transformMatrix, scale, rotation, translation, skew, perspective);
-            rotation = glm::conjugate(rotation);
-
-            glm::vec3 rotationInDegrees = glm::eulerAngles(rotation);
-            rotationInDegrees *= 180.0f;
-            rotationInDegrees /= 3.1416f;
-
-            float pos[3] = { translation.x, translation.y, translation.z };
-            float rot[3] = { rotationInDegrees.x, rotationInDegrees.y, rotationInDegrees.z };
-            float sc[3] = { scale.x, scale.y, scale.z };
-
-            ImGui::InputFloat3("Position", pos, 2);
-            ImGui::InputFloat3("Rotation", rot, 0);
-            ImGui::InputFloat3("Scale", sc, 2);
-
-            translation = glm::vec3(pos[0], pos[1], pos[2]);
-            scale = glm::vec3(sc[0], sc[1], sc[2]);
-
-
-            transformMatrix = glm::mat4(1.0f);
-            transformMatrix = glm::translate(transformMatrix, translation);
-            //transformMatrix = glm::rotate(transformMatrix, glm::radians(180.0f), glm::vec3(rot[0], rot[1], rot[2]));
-
-            parent.relative_transform.transform = glm::scale(transformMatrix, scale);
         }
+
+        glm::decompose(transformMatrix, scale, rotation, translation, skew, perspective);
+        rotation = glm::conjugate(rotation);
+
+        glm::vec3 rotationInDegrees = glm::eulerAngles(rotation);
+        //rotationInDegrees *= 180.0f;
+        //rotationInDegrees /= 3.1416f;
+
+        float pos[3] = { translation.x, translation.y, translation.z };
+        float rot[3] = { rotationInDegrees.x, rotationInDegrees.y, rotationInDegrees.z };
+        float sc[3] = { scale.x, scale.y, scale.z };
+
+        ImGui::InputFloat3("Position", pos, 2);
+        ImGui::InputFloat3("Rotation", rot, 0);
+        ImGui::InputFloat3("Scale", sc, 2);
+
+        translation = glm::vec3(pos[0], pos[1], pos[2]);
+        scale = glm::vec3(sc[0], sc[1], sc[2]);
+
+        glm::mat4 scalar = glm::mat4(1.0f);
+        scalar = glm::scale(scalar, scale);
+
+        glm::mat4 rotator = glm::eulerAngleXYX(rot[0], rot[1], rot[2]);
+
+        glm::mat4 translator = glm::mat4(1.0f);
+        translator = glm::translate(translator, translation);
+
+        if (parent.parent_entity == selectedEntity_)
+        {
+          trans.transform = translator * rotator * scalar;
+        }
+        else {
+          parent.relative_transform.transform = translator * rotator * scalar;
+        }
+       
+
       }
     }
     ImGui::End();

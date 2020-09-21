@@ -7,6 +7,8 @@
 #include <glm/vec3.hpp>
 #include <logger.h>
 
+#include <OBJ_Loader.h>
+
 using namespace VC;
 using namespace glm;
 
@@ -43,6 +45,11 @@ void Geometry::Inicialize(u32 max_geometries)
 
 bool Geometry::LoadOBJ(const char* filepath, bool loadTangents)
 {
+
+  //objl::Loader loader;
+
+  //loader.LoadFile(std::string(filepath));
+
   std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
 
   std::vector<vec3> temp_vertices;
@@ -132,15 +139,12 @@ bool Geometry::LoadOBJ(const char* filepath, bool loadTangents)
     outUV.push_back(uv);
   }
 
-
-
   const unsigned int positionsNumOfFloats = outPosition.size() * 3;
   const unsigned int normalsNumOfFloats = outNormal.size() * 3;
   const unsigned int uvNumOfFloats = outUV.size() * 2;
   unsigned int tangentNumOfFloats;
   const unsigned int indicesNumOfFloats = positionsNumOfFloats / 2;
 
-  
   float* tangents = nullptr;
   if (loadTangents) {
     for (unsigned int i = 0; i < outPosition.size(); i += 3)

@@ -19,8 +19,8 @@ void MaterialCommand::Action()
 {
 	if (material.getMaterialID() == 0)
 	{
-		const char* vertexShaderSource = material.getVertexShader();
-		const char* fragmentShaderSource = material.getFragmentShader();
+		const char* vertexShaderSource = material.getVertexShaderSource();
+		const char* fragmentShaderSource = material.getFragmentShaderSource();
 		
 		u32 vertexShader;
 		vertexShader = glCreateShader(GL_VERTEX_SHADER);

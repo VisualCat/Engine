@@ -38,12 +38,10 @@ namespace VC {
 		Window window_;
     ImGuiHandler imguiHandler_;
 		std::vector<RenderCommand*> commands_;
-		std::vector<Object*> objectsInScene_;
 		std::vector<u32> entities_;
 		Camera camera_;
 		Coordinator cordinator_;
 		std::shared_ptr<RenderSystem> rendersys_;
-		std::shared_ptr<WaveMovementSystem> wavemovementsys_;
 		std::shared_ptr<TransformSystem> transformsys_;
 		std::chrono::time_point<std::chrono::system_clock> start_time;
 	};

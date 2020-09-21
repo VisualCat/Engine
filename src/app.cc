@@ -10,7 +10,6 @@
 #include <logger.h>
 
 #include <geometry.h>
-#include <shader.h>
 #include <material.h>
 #include <clearwindow_rendercommand.h>
 #include <transform_component.h>
@@ -58,13 +57,13 @@ void App::Init()
 	}
 	rendersys_->Init(&cordinator_);
 
-  wavemovementsys_ = cordinator_.RegisterSystem<WaveMovementSystem>();
+  /*wavemovementsys_ = cordinator_.RegisterSystem<WaveMovementSystem>();
   {
     Signature signature;
     signature.set(cordinator_.GetComponentType<Transform>());
     cordinator_.SetSystemSignature<WaveMovementSystem>(signature);
   }
-  wavemovementsys_->Init(&cordinator_);
+  wavemovementsys_->Init(&cordinator_);*/
 
   transformsys_ = cordinator_.RegisterSystem<TransformSystem>();
   {
@@ -77,60 +76,20 @@ void App::Init()
 
   Logger::addMessage("systems registered");
 
-	/*Shader vertexShader;
-	Shader fragmentShader;
-	vertexShader.LoadSource("path");
-	fragmentShader.LoadSource("path");*/
-
-	const char* vertexShaderSource = R"(
-		#version 330 core
-
-		layout (location = 0) in vec3 aPos;
-		layout (location = 1) in vec3 aNormal;
-
-    uniform mat4 u_v_matrix;
-    uniform mat4 u_p_matrix;
-    uniform mat4 u_m_matrix;
-
-    out vec3 normal;
-
-    void main()
-		{
-        
-       normal = aNormal * 0.5 + 0.5;
-
-           
-       mat4 mvp = u_p_matrix * u_v_matrix * u_m_matrix;
-		   gl_Position = mvp * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-		}
-	)";
-
-	const char* fragmentShaderSource = R"(
-		#version 330 core
-		out vec4 FragColor;
-    
-    in vec3 normal;
-
-		void main()
-		{
-			FragColor = vec4(normal, 1.0f);
-		} 
-	)";
-
-
 
 	Material triangleMat{ 1 };
 	Geometry triangleGeo{ 1 };
 	Geometry roadGeo{ 2 };
 	
-	if (!roadGeo.LoadOBJ("../bin/SM_Road_00.obj", false)) {
-		Logger::addMessage("Did not load obj properly");
-	}
+	//roadGeo.LoadOBJ("../data/moto.obj", false);
+	roadGeo.CreatePrism();
 
 	triangleGeo.CreatePrism();
 
-  triangleMat.setVertexShader(vertexShaderSource);
-  triangleMat.setFragmentShader(fragmentShaderSource);
+	triangleMat.LoadShadersFromFile("../data/shaders/basic.vert", "../data/shaders/basic.frag");
+
+  /*triangleMat.setVertexShaderSource(vertexShaderSource);
+  triangleMat.setFragmentShaderSource(fragmentShaderSource);*/
 
   //Object *triangle = new Object();
   //triangle->setGeometry(triangleGeo);
@@ -254,7 +213,7 @@ void App::update()
 	ClearWindowCommand* cCommand = new ClearWindowCommand();
 	cCommand->setColor(0.8f, 0.8f, 0.8f);
 	commands_.push_back(cCommand);
-
+	 
 	camera_.update();
 	float timer = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_time).count()/1000.0f;
 
@@ -287,7 +246,7 @@ void App::ImGuiDraw() {
 
   bool demo = true;
 
-  ImGui::ShowDemoWindow(&demo);
+  //ImGui::ShowDemoWindow(&demo);
 
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
