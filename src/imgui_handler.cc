@@ -15,10 +15,16 @@ void ImGuiHandler::Init(Coordinator *cordinator)
 }
 
 void ImGuiHandler::InitWindowInfo(ImVec2 windowPos, ImVec2 windowSize) {
-  ImGui::SetNextWindowPos(windowPos);
-  ImGui::SetNextWindowSize(windowSize);
+  /*ImGui::SetNextWindowPos(windowPos);
+  ImGui::SetNextWindowSize(windowSize);*/
   ImGui::SetNextWindowBgAlpha(1.0f);
-  flags_ = (ImGuiWindowFlags_::ImGuiWindowFlags_NoResize || ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar);
+  //flags_ = (ImGuiWindowFlags_::ImGuiWindowFlags_NoResize || ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar);
+  ImGui::GetStyle().WindowRounding = 0.0f;// <- Set this on init or use ImGui::PushStyleVar()
+  ImGui::GetStyle().ChildRounding = 0.0f;
+  ImGui::GetStyle().FrameRounding = 0.0f;
+  ImGui::GetStyle().GrabRounding = 0.0f;
+  ImGui::GetStyle().PopupRounding = 0.0f;
+  ImGui::GetStyle().ScrollbarRounding = 0.0f;
 }
 
 void ImGuiHandler::HierarchyWindow(std::vector<u32> *entities)
@@ -72,7 +78,7 @@ void ImGuiHandler::InspectorWindow()
 {
 
   InitWindowInfo(ImVec2(kWindowWidth * 6.5f / 8.0f, 0.0f),
-    ImVec2(kWindowWidth * 1.5f / 8.0f, kWindowHeight * 3.0f / 4.0f));
+    ImVec2(kWindowWidth * 1.5f / 8.0f, kWindowHeight));
 
   if (ImGui::Begin("Inspector", nullptr, flags_))
   { 
@@ -80,13 +86,11 @@ void ImGuiHandler::InspectorWindow()
     ImGui::Separator();
     if (isAnyEntitySelected_)
     {
+
         bool transform = cordinator_->HasComponent<Transform>(selectedEntity_);
         bool parent = cordinator_->HasComponent<Parent>(selectedEntity_);
         bool render = cordinator_->HasComponent<Render>(selectedEntity_);
-        
-        
-
-        
+            
 
       if (ImGui::CollapsingHeader("Transform", &transform))
       {
@@ -151,7 +155,38 @@ void ImGuiHandler::InspectorWindow()
   }
 }
 
-void RenderWindow() {
+void ImGuiHandler::LogWindow()
+{
+  InitWindowInfo(ImVec2(0.0f, kWindowHeight * 3.0f / 4.0f),
+    ImVec2(kWindowWidth * 2.0f / 8.0f, kWindowHeight / 4.0f));
+
+  if (ImGui::Begin("Log", nullptr, flags_))
+  {
+
+    ImGui::Text("Log");
+    ImGui::Separator();
+
+    ImGui::End();
+  }
+
+}
+
+void ImGuiHandler::ExplorerWindow()
+{
+  InitWindowInfo(ImVec2(kWindowWidth * 2.0f / 8.0f, kWindowHeight * 3.0f / 4.0f),
+    ImVec2(kWindowWidth * 4.5f / 8.0f, kWindowHeight / 4.0f));
+
+  if (ImGui::Begin("Explorer", nullptr, flags_))
+  {
+
+    ImGui::Text("Explorer");
+    ImGui::Separator();
+
+    ImGui::End();
+  }
+}
+
+void ImGuiHandler::RenderWindow() {
 
     
 

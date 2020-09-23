@@ -21,6 +21,10 @@ namespace VC {
 
     void InspectorWindow();
 
+    void LogWindow();
+
+    void ExplorerWindow();
+
     void RenderWindow();
 
   private:

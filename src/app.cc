@@ -243,10 +243,12 @@ void App::ImGuiDraw() {
 
   imguiHandler_.HierarchyWindow(&entities_);
   imguiHandler_.InspectorWindow();
+	imguiHandler_.LogWindow();
+	imguiHandler_.ExplorerWindow();
 
   bool demo = true;
 
-  //ImGui::ShowDemoWindow(&demo);
+  ImGui::ShowDemoWindow(&demo);
 
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
